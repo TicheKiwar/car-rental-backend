@@ -3,21 +3,34 @@ import { ICatalogRepository } from '../domain/Catalog.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Vehiculos } from 'src/entity/Vehiculos.entity';
 import { Repository } from 'typeorm';
+import { Modelo } from 'src/entity/Modelo.entity';
+import { Marca } from 'src/entity/Marca.entity';
+import { fork } from 'child_process';
 
 @Injectable()
-export class CatalogService implements ICatalogRepository{
+export class CatalogService implements ICatalogRepository {
 
   constructor(
     @InjectRepository(
-      Vehiculos
+      Vehiculos,
     )
-    private readonly catalogRepository:Repository<Vehiculos>
-) {}
-  getModel() {
-    throw new Error('Method not implemented.');
+    private readonly catalogRepository: Repository<Vehiculos>,
+    @InjectRepository(
+      Modelo,
+    )
+    private readonly modelRepository: Repository<Modelo>,
+    @InjectRepository(
+      Marca,
+    )
+    private readonly brandRepository: Repository<Marca>
+  ) { }
+  async getModel() {
+    const model = await this.modelRepository.find()
+    return model
   }
-  getBrand() {
-    throw new Error('Method not implemented.');
+  async getBrand() {
+    const brand = await this.brandRepository.find()
+    return brand
   }
 
   async getCatalog() {
@@ -26,24 +39,38 @@ export class CatalogService implements ICatalogRepository{
         idVehiculo: true,
         matricula: true,
         tipo: true,
-        estado:true,
+        estado: true,
+        numeroPuertas: true,
         idModelo: {
-          nombre: true,  // Selecciona solo el campo "nombre" de la relación idModelo
+          idModelo :true,
+          nombre: true,
+          idMarca: {
+            idMarca: true,
+            nombre:true
+          }
         }
       },
-    relations: ["idModelo"], 
-  });
+      relations: ["idModelo","idModelo.idMarca"],
+    });
     return catalog
   }
 
   async findByVehicle(idVehicle: number) {
-    throw new Error('Method not implemented.');
+    const vehicle = await this.catalogRepository.findOne({where:{
+      idVehiculo:idVehicle
+    }})
+    return vehicle
   }
   async findByModel(idModelo: number) {
-    throw new Error('Method not implemented.');
+    const vehicle = await this.modelRepository.findOne({where:{idModelo:idModelo},
+    relations:["vehiculos"]
+    })
+    return vehicle
   }
   async findByBrand(idBrand: number) {
-    throw new Error('Method not implemented.');
+    const brand = await this.brandRepository.findOne({where:{idMarca:idBrand},
+      })
+      return brand
   }
 
 }
