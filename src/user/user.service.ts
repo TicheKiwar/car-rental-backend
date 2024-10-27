@@ -1,8 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Clientes } from 'src/entity/Clientes';
 import { Empleados } from 'src/entity/Empleados';
 import { Repository } from 'typeorm';
+import { CreateClientDto } from './dtos/create-client.dto';
+import { CreateEmployeeDto } from './dtos/create-employee';
 
 @Injectable()
 export class UserService {
@@ -41,5 +43,17 @@ export class UserService {
 
     async getAllEmployees() {
         return this.employeesRepository.find();
+    }
+
+    async emailExists(email: string): Promise<boolean> {
+        const existingClient = await this.clientsRepository.findOne({
+            where: { correo: email },
+        });
+
+        const existingEmployee = await this.employeesRepository.findOne({
+            where: { correo: email },
+        });
+
+        return !!existingClient || !!existingEmployee;
     }
 }
