@@ -56,4 +56,24 @@ export class UserService {
 
         return !!existingClient || !!existingEmployee;
     }
+
+    async createClient(dto: CreateClientDto) {
+        const emailExists = await this.emailExists(dto.correo);
+        if (emailExists) {
+            throw new ConflictException('Ya existe un cliente o empleado con este correo electrónico.');
+        }
+
+        const client = this.clientsRepository.create(dto);
+        return this.clientsRepository.save(client);
+    }
+
+    async createEmployee(dto: CreateEmployeeDto) {
+        const emailExists = await this.emailExists(dto.correo);
+        if (emailExists) {
+            throw new ConflictException('Ya existe un cliente o empleado con este correo electrónico.');
+        }
+
+        const employee = this.employeesRepository.create(dto);
+        return this.employeesRepository.save(employee);
+    }
 }
