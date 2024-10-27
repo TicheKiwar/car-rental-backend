@@ -6,10 +6,10 @@ import {
   ManyToOne,
   OneToMany,
 } from "typeorm";
-import { Reservas } from "./Reservas";
-import { Modelo } from "./Modelo";
+import { Reservas } from "./Reservas.entity";
+import { Modelo } from "./Modelo.entity";
 
-@Index("vehiculos_pkey", ["idVehiculo"], { unique: true })
+// @Index("vehiculos_pkey", ["idVehiculo"], { unique: true })
 @Entity("vehiculos", { schema: "public" })
 export class Vehiculos {
   @Column("integer", { primary: true, name: "id_vehiculo" })

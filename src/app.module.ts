@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
+import { catalogModule } from './Catalog/Catalog.module';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { ConfigModule } from '@nestjs/config/dist/config.module';
       autoLoadEntities: true,
       synchronize: true,
       ssl: process.env.SSL === 'true',
-    }),
+    }),catalogModule
   ],
   controllers: [AppController],
   providers: [AppService],
