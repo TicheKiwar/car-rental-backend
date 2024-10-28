@@ -1,10 +1,10 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Clientes } from 'src/entity/Clientes';
-import { Empleados } from 'src/entity/Empleados';
 import { Repository } from 'typeorm';
 import { CreateClientDto } from './dtos/create-client.dto';
 import { CreateEmployeeDto } from './dtos/create-employee';
+import { Clientes } from 'src/entity/Clientes.entity';
+import { Empleados } from 'src/entity/Empleados.entity';
 
 @Injectable()
 export class UserService {
