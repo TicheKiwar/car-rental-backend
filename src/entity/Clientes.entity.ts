@@ -1,5 +1,6 @@
-import { Column, Entity, Index, OneToMany } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, Index, OneToMany } from "typeorm";
 import { Reservas } from "./Reservas.entity";
+import { hash } from "bcrypt";
 
 // @Index("clientes_correo_key", ["correo"], { unique: true })
 // @Index("clientes_pkey", ["idCliente"], { unique: true })
@@ -41,4 +42,13 @@ export class Clientes {
 
   @OneToMany(() => Reservas, (reservas) => reservas.idCliente)
   reservas: Reservas[];
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword() {
+    if (!this.contraseA) {
+      return;
+    }
+    this.contraseA = await hash(this.contraseA,10);
+  }
 }

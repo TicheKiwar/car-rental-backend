@@ -40,6 +40,7 @@ export class CatalogService implements ICatalogRepository {
         matricula: true,
         tipo: true,
         estado: true,
+        color: true,
         numeroPuertas: true,
         idModelo: {
           idModelo :true,
