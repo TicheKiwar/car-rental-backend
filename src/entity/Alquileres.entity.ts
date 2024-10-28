@@ -1,8 +1,8 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import { Empleados } from "./Empleados";
-import { Reservas } from "./Reservas";
+import { Empleados } from "./Empleados.entity";
+import { Reservas } from "./Reservas.entity";
 
-@Index("alquileres_pkey", ["idAlquiler"], { unique: true })
+//@Index("alquileres_pkey", ["idAlquiler"], { unique: true })
 @Entity("alquileres", { schema: "public" })
 export class Alquileres {
   @Column("integer", { primary: true, name: "id_alquiler" })
@@ -24,7 +24,6 @@ export class Alquileres {
 
   @Column("integer", { name: "kilometraje_inicial", nullable: true })
   kilometrajeInicial: number | null;
-
   @Column("integer", { name: "kilometraje_final", nullable: true })
   kilometrajeFinal: number | null;
 

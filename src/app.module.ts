@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
 import { UserModule } from './user/user.module';
+import { catalogModule } from './Catalog/Catalog.module';
 
 @Module({
   imports: [
@@ -23,9 +24,9 @@ import { UserModule } from './user/user.module';
       synchronize: true,
       ssl: process.env.SSL === 'true',
     }),
-    UserModule,
+    UserModule, catalogModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

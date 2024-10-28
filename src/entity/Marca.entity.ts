@@ -1,7 +1,7 @@
 import { Column, Entity, Index, OneToMany } from "typeorm";
-import { Modelo } from "./Modelo";
+import { Modelo } from "./Modelo.entity";
 
-@Index("marca_pkey", ["idMarca"], { unique: true })
+// @Index("marca_pkey", ["idMarca"], { unique: true })
 @Entity("marca", { schema: "public" })
 export class Marca {
   @Column("integer", { primary: true, name: "id_marca" })

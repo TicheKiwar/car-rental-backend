@@ -1,8 +1,8 @@
 import { Column, Entity, Index, OneToMany } from "typeorm";
-import { Reservas } from "./Reservas";
+import { Reservas } from "./Reservas.entity";
 
-@Index("clientes_correo_key", ["correo"], { unique: true })
-@Index("clientes_pkey", ["idCliente"], { unique: true })
+// @Index("clientes_correo_key", ["correo"], { unique: true })
+// @Index("clientes_pkey", ["idCliente"], { unique: true })
 @Entity("clientes", { schema: "public" })
 export class Clientes {
   @Column("integer", { primary: true, name: "id_cliente" })
