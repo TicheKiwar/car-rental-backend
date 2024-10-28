@@ -63,7 +63,17 @@ export class UserService {
             throw new ConflictException('Ya existe un cliente o empleado con este correo electrónico.');
         }
 
-        const client = this.clientsRepository.create(dto);
+        const lastClient = await this.clientsRepository
+            .createQueryBuilder("cliente")
+            .orderBy("cliente.idCliente", "DESC")
+            .getOne();
+
+        const newId = lastClient ? lastClient.idCliente + 1 : 1;
+
+        const client = this.clientsRepository.create({
+            idCliente: newId,
+            ...dto
+        });
         return this.clientsRepository.save(client);
     }
 
@@ -73,7 +83,16 @@ export class UserService {
             throw new ConflictException('Ya existe un cliente o empleado con este correo electrónico.');
         }
 
-        const employee = this.employeesRepository.create(dto);
+        const lastEmployee = await this.employeesRepository
+            .createQueryBuilder("employee")
+            .orderBy("employee.idEmpleado", "DESC")
+            .getOne();
+
+        const newId = lastEmployee ? lastEmployee.idEmpleado + 1 : 1;
+        const employee = this.employeesRepository.create({
+            idEmpleado: newId,
+            ...dto
+        });
         return this.employeesRepository.save(employee);
     }
 }
