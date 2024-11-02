@@ -18,7 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db": "rimraf ./src/entity && typeorm-model-generator -h localhost -d rental -p 5432 -u gestion -x gestion123 -e postgres -o ./src/entity --noConfig true --ce pascal --cp camel"
+    "db": "rimraf ./src/entity && typeorm-model-generator -h aws-0-us-east-1.pooler.supabase.com -d postgres -p 6543 -u postgres.rrakbrzjofjsrrdzkxtt -x WXriD3VADy1tfftp -e postgres -o ./src/entity --noConfig true --ce pascal --cp camel"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
