@@ -83,7 +83,7 @@ export class Vehicles {
     name: "delete_date",
     nullable: true,
   })
-  deleteDate: Date | null;
+  deletedAt: Date | null;
 
   @OneToMany(() => Reservations, (reservations) => reservations.vehicle)
   reservations: Reservations[];

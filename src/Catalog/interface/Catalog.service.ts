@@ -1,77 +1,80 @@
 import { Injectable } from '@nestjs/common';
 import { ICatalogRepository } from '../domain/Catalog.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Vehiculos } from 'src/entity/Vehiculos.entity';
 import { Repository } from 'typeorm';
-import { Modelo } from 'src/entity/Modelo.entity';
-import { Marca } from 'src/entity/Marca.entity';
-import { fork } from 'child_process';
+import { Vehicles } from 'src/entity/Vehicles.entity';
+import { Model } from 'src/entity/Model.entity';
+import { Brand } from 'src/entity/Brand.entity';
 
 @Injectable()
 export class CatalogService implements ICatalogRepository {
-
   constructor(
-    @InjectRepository(
-      Vehiculos,
-    )
-    private readonly catalogRepository: Repository<Vehiculos>,
-    @InjectRepository(
-      Modelo,
-    )
-    private readonly modelRepository: Repository<Modelo>,
-    @InjectRepository(
-      Marca,
-    )
-    private readonly brandRepository: Repository<Marca>
-  ) { }
+    @InjectRepository(Vehicles)
+    private readonly catalogRepository: Repository<Vehicles>,
+    @InjectRepository(Model)
+    private readonly modelRepository: Repository<Model>,
+    @InjectRepository(Brand)
+    private readonly brandRepository: Repository<Brand>
+  ) {}
+
   async getModel() {
-    const model = await this.modelRepository.find()
-    return model
+    const model = await this.modelRepository.find({ where: { deletedAt: null } });
+    return model;
   }
+
   async getBrand() {
-    const brand = await this.brandRepository.find()
-    return brand
+    const brand = await this.brandRepository.find({ where: { deletedAt: null } });
+    return brand;
   }
 
   async getCatalog() {
     const catalog = await this.catalogRepository.find({
       select: {
-        idVehiculo: true,
-        matricula: true,
-        tipo: true,
-        estado: true,
+        vehicleId: true,
+        licensePlate: true,
+        image: true,
+        type: true,
+        status: true,
         color: true,
-        numeroPuertas: true,
-        idModelo: {
-          idModelo :true,
-          nombre: true,
-          idMarca: {
-            idMarca: true,
-            nombre:true
+        doorCount: true,
+        model: {
+          modelId: true,
+          modelName: true,
+          brand: {
+            brandId: true,
+            brandName: true,
           }
         }
       },
-      relations: ["idModelo","idModelo.idMarca"],
+      where: { deletedAt: null },
+      relations: ["model", "model.brand"],
     });
-    return catalog
+    return catalog;
   }
 
   async findByVehicle(idVehicle: number) {
-    const vehicle = await this.catalogRepository.findOne({where:{
-      idVehiculo:idVehicle
-    }})
-    return vehicle
-  }
-  async findByModel(idModelo: number) {
-    const vehicle = await this.modelRepository.findOne({where:{idModelo:idModelo},
-    relations:["vehiculos"]
-    })
-    return vehicle
-  }
-  async findByBrand(idBrand: number) {
-    const brand = await this.brandRepository.findOne({where:{idMarca:idBrand},
-      })
-      return brand
+    const vehicle = await this.catalogRepository.findOne({
+      where: {
+        vehicleId: idVehicle,
+        deletedAt: null,
+      },
+      relations: ["model", "model.brand"]
+    });
+    return vehicle;
   }
 
+  async findByModel(idModel: number) {
+    const model = await this.modelRepository.findOne({
+      where: { modelId: idModel, deletedAt: null },
+      relations: ["vehicles"]
+    });
+    return model;
+  }
+
+  async findByBrand(idBrand: number) {
+    const brand = await this.brandRepository.findOne({
+      where: { brandId: idBrand, deletedAt: null },
+    });
+    return brand;
+  }
 }

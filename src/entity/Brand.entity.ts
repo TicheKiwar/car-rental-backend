@@ -17,6 +17,12 @@ export class Brand {
   @Column("character varying", { name: "brand_name", unique: true, length: 50 })
   brandName: string;
 
+  @Column("timestamp without time zone", {
+    name: "delete_date",
+    nullable: true,
+  })
+  deletedAt: Date | null;
+
   @OneToMany(() => Model, (model) => model.brand)
   models: Model[];
 }
