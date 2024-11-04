@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Vehiculos } from 'src/entity/Vehiculos.entity';
 import { CatalogController } from './application/Catalog.controller';
 import { CatalogService } from './interface/Catalog.service';
-import { Modelo } from 'src/entity/Modelo.entity';
-import { Marca } from 'src/entity/Marca.entity';
+import { Vehicles } from 'src/entity/Vehicles.entity';
+import { Model } from 'src/entity/Model.entity';
+import { Brand } from 'src/entity/Brand.entity';
+
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Vehiculos,Modelo,Marca]),
+    TypeOrmModule.forFeature([Vehicles,Model,Brand]),
   ],
   controllers: [CatalogController],
   providers: [CatalogService],

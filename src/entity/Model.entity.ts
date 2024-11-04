@@ -25,6 +25,11 @@ export class Model {
   @ManyToOne(() => Brand, (brand) => brand.models)
   @JoinColumn([{ name: "brand_id", referencedColumnName: "brandId" }])
   brand: Brand;
+  @Column("timestamp without time zone", {
+    name: "delete_date",
+    nullable: true,
+  })
+  deletedAt: Date | null;
 
   @OneToMany(() => Vehicles, (vehicles) => vehicles.model)
   vehicles: Vehicles[];
