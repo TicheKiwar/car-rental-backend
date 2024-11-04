@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   Index,
@@ -10,6 +12,7 @@ import {
 import { Clients } from "./Clients.entity";
 import { Employees } from "./Employees.entity";
 import { Roles } from "./Roles.entity";
+import { hash } from "bcrypt";
 
 @Index("users_email_key", ["email"], { unique: true })
 @Index("users_pkey", ["userId"], { unique: true })
@@ -21,7 +24,7 @@ export class Users {
   @Column("character varying", { name: "email", unique: true, length: 75 })
   email: string;
 
-  @Column("character varying", { name: "password", length: 300 })
+  @Column("text", { name: "password" })
   password: string;
 
   @Column("timestamp without time zone", {
@@ -39,4 +42,14 @@ export class Users {
   @ManyToOne(() => Roles, (roles) => roles.users)
   @JoinColumn([{ name: "role_id", referencedColumnName: "roleId" }])
   role: Roles;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword() {
+    if (!this.password) {
+      return;
+    }
+    this.password = await hash(this.password, 10);
+  }
+
 }
