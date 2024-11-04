@@ -23,6 +23,9 @@ export class Employees {
   @Column("integer", { name: "user_id", unique: true })
   userId: number;
 
+  @Column("character", { name: "dni", unique: true, length: 10 })
+  dni: string;
+
   @Column("character varying", { name: "first_name", length: 50 })
   firstName: string;
 
@@ -36,7 +39,7 @@ export class Employees {
   hireDate: string;
 
   @Column("numeric", { name: "salary", precision: 10, scale: 2 })
-  salary: string;
+  salary: number;
 
   @ManyToOne(() => Positions, (positions) => positions.employees)
   @JoinColumn([{ name: "position_id", referencedColumnName: "positionId" }])

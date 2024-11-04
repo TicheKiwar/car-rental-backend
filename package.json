@@ -21,7 +21,7 @@
     "db": "rimraf ./src/entity && typeorm-model-generator -h aws-0-us-east-1.pooler.supabase.com -d postgres -p 6543 -u postgres.rrakbrzjofjsrrdzkxtt -x WXriD3VADy1tfftp -e postgres -o ./src/entity --noConfig true --ce pascal --cp camel"
   },
   "dependencies": {
-    "@nestjs/common": "^10.0.0",
+    "@nestjs/common": "^10.4.6",
     "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
