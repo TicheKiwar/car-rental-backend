@@ -23,10 +23,10 @@ export class AuthService {
   }
 
   isAdmin(user: Users): boolean {
-    return user.role.roleName === 'admin';
+    return user.role.roleName === 'Administrador';
   }
 
   isEmployee(user: Users): boolean {
-    return user.role.roleName === 'employe';
+    return user.role.roleName === 'Empleado';
   }
 }

@@ -14,9 +14,9 @@ export class AuthController {
     }
 
     if (this.authService.isAdmin(user)) {
-      return { message: 'Login successful', role: 'admin' };
+      return { message: 'Login successful', role: 'Administrador' };
     } else if (this.authService.isEmployee(user)) {
-      return { message: 'Login successful', role: 'employe' };
+      return { message: 'Login successful', role: 'Empleado' };
     } else {
       throw new HttpException('User role not recognized', HttpStatus.FORBIDDEN);
     }

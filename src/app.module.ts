@@ -22,7 +22,7 @@ import { catalogModule } from './Catalog/Catalog.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
       synchronize: true,
-      ssl: process.env.SSL === 'true',
+      ssl: process.env.SSL === 'false',
     }),
     UserModule, AuthModule, catalogModule
   ],

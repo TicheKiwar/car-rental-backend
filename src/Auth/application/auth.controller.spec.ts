@@ -33,7 +33,7 @@ describe('AuthController (integration)', () => {
     const roleAdmin = new Roles();
     roleAdmin.roleName = 'admin';
     const roleEmployee = new Roles();
-    roleEmployee.roleName = 'employe';
+    roleEmployee.roleName = 'Empleado';
 
     const adminUser = new Users();
     adminUser.email = 'admin@example.com';
@@ -58,7 +58,7 @@ describe('AuthController (integration)', () => {
       .send({ email: 'admin@example.com', password: 'admin123' })
       .expect(200)
       .expect(({ body }) => {
-        expect(body.role).toBe('admin');
+        expect(body.role).toBe('Administrador');
         expect(body.message).toBe('Login successful');
       });
   });
@@ -69,7 +69,7 @@ describe('AuthController (integration)', () => {
       .send({ email: 'employee@example.com', password: 'employee123' })
       .expect(200)
       .expect(({ body }) => {
-        expect(body.role).toBe('employe');
+        expect(body.role).toBe('Empleado');
         expect(body.message).toBe('Login successful');
       });
   });
