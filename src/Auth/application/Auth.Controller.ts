@@ -1,22 +1,24 @@
-// src/auth/application/auth.controller.ts
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
 import { AuthService } from '../domain/auth.service';
-import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() loginDto: LoginDto) {
-    const user = await this.authService.validateUser(loginDto);
+  async login(@Body() loginDto: { email: string; password: string }) {
+    const user = await this.authService.validateUser(loginDto.email, loginDto.password);
+
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
 
-    return {
-      message: `Login successful as ${user.role.roleName}`,
-      role: user.role.roleName,
-    };
+    if (this.authService.isAdmin(user)) {
+      return { message: 'Login successful', role: 'admin' };
+    } else if (this.authService.isEmployee(user)) {
+      return { message: 'Login successful', role: 'employe' };
+    } else {
+      throw new HttpException('User role not recognized', HttpStatus.FORBIDDEN);
+    }
   }
 }
