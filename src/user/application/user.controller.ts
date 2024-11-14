@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
 import { UserService } from '../interface/user.service';
 
 @Controller('users')
@@ -8,6 +8,13 @@ export class UserController {
     @Get()
     async getAllUsers() {
         return this.userService.getAllUsers();
+    }
+
+    @Get(':id')
+    @HttpCode(HttpStatus.OK)
+    async findUserById(@Param('id') id: number) {
+        const data = await this.userService.findById(id);
+        return { message: `Usuario con ID ${id}`, data };
     }
 
     @Post('validate/:id')
