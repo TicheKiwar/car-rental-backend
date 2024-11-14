@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IUserRepository } from '../domain/user.repository';
@@ -26,18 +26,36 @@ export class UserService implements IUserRepository {
         return users;
     }
 
+    async findById(userId: number) {
+
+        const user = await this.userRepository.findOne({
+            where: { userId: userId },
+            relations: ['clients', 'employees'],
+        });
+        if (!user)
+            throw new NotFoundException(
+                'El usuario no existe o no se encuentra autorizado',
+            );
+        return user;
+    }
+
     async findUser(email: string) {
-        return await this.userRepository
+        const user = await this.userRepository
             .createQueryBuilder('user')
-            .where({ email: email })
-            .andWhere({ deleteDate: null })
+            .where('user.email = :email', { email })
+            .andWhere('user.deleteDate IS NULL')
             .addSelect('user.password')
             .getOne();
+        console.log(user)
+        if (!user)
+            throw new NotFoundException(
+                'El usuario no existe o no se encuentra autorizado',
+            );
+        return user;
     }
 
     async isEmailOrDniTaken(email: string, dni: string, id: number): Promise<{ emailExists: boolean; dniExists: boolean }> {
         const [emailUser, clientDniUser, employeeDniUser] = await Promise.all([
-            // Verifica si el email existe en la tabla users
             this.userRepository.createQueryBuilder('user')
                 .where('user.email = :email', { email })
                 .andWhere('user.deleteDate IS NULL')

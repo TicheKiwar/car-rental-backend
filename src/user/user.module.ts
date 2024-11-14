@@ -14,6 +14,7 @@ import { EmployeeController } from './application/employee.controller';
 @Module({
   imports: [TypeOrmModule.forFeature([Users, Clients, Employees]),],
   providers: [UserService, ClientService, EmployeeService],
-  controllers: [UserController, ClientController, EmployeeController]
+  controllers: [UserController, ClientController, EmployeeController],
+  exports: [UserService]
 })
 export class UserModule { }
