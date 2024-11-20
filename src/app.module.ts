@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { catalogModule } from './Catalog/Catalog.module';
 import { BrandModule } from './Brand/brand.module';
 import { ModelModule } from './Model/model.module';
+import { VehiclesModule } from './Vehicle/vehicle.module';
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { ModelModule } from './Model/model.module';
       synchronize: false,
       ssl: process.env.SSL === 'false',
     }),
-    UserModule, AuthModule, catalogModule, BrandModule, ModelModule
+    UserModule, AuthModule, catalogModule, BrandModule, ModelModule, VehiclesModule
   ],
   controllers: [AppController],
   providers: [AppService],
