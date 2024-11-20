@@ -32,7 +32,6 @@ export class CatalogService implements ICatalogRepository {
       select: {
         vehicleId: true,
         licensePlate: true,
-        image: true,
         type: true,
         status: true,
         color: true,
