@@ -10,8 +10,8 @@ import {
 import { Reservations } from "./Reservations.entity";
 import { Model } from "./Model.entity";
 
-@Index("vehicles_license_plate_key", ["licensePlate"], { unique: true })
-@Index("vehicles_pkey", ["vehicleId"], { unique: true })
+// @Index("vehicles_license_plate_key", ["licensePlate"], { unique: true })
+// @Index("vehicles_pkey", ["vehicleId"], { unique: true })
 @Entity("vehicles", { schema: "public" })
 export class Vehicles {
   @PrimaryGeneratedColumn({ type: "integer", name: "vehicle_id" })
@@ -23,9 +23,6 @@ export class Vehicles {
     length: 20,
   })
   licensePlate: string;
-
-  @Column("bytea", { name: "image", nullable: true })
-  image: Buffer | null;
 
   @Column("character varying", { name: "type", length: 50 })
   type: string;
