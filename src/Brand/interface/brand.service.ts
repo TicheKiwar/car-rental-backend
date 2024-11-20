@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Brand } from 'src/entity/Brand.entity';
+import { IBrandRepository } from '../domain/brand.repository';
 
 @Injectable()
-export class BrandService {
+export class BrandService implements IBrandRepository{
   constructor(
     @InjectRepository(Brand)
     private readonly brandRepository: Repository<Brand>,

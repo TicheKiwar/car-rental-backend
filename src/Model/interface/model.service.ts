@@ -1,34 +1,62 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Model } from 'src/entity/Model.entity';
+import { Model } from '../../entity/Model.entity';
+import { Brand } from '../../entity/Brand.entity';
+import { IModelRepository } from '../domain/model.repository';
 
 @Injectable()
-export class ModelService {
+export class ModelService implements IModelRepository {
   constructor(
     @InjectRepository(Model)
     private readonly modelRepository: Repository<Model>,
+    @InjectRepository(Brand)
+    private readonly brandRepository: Repository<Brand>,
   ) {}
 
-  async getAllModels() {
-    return await this.modelRepository.find({ where: { deletedAt: null } });
+  async getModels() {
+    return await this.modelRepository.find({
+      where: { deletedAt: null },
+      relations: ['brand'],
+    });
   }
 
-  async getModelById(id: number) {
-    return await this.modelRepository.findOne({ where: { modelId: id, deletedAt: null } });
+  async createModel(createModelDto: any) {
+    const { brandId, modelName, year } = createModelDto;
+    const brand = await this.brandRepository.findOne({ where: { brandId, deletedAt: null } });
+    if (!brand) throw new NotFoundException('Brand not found');
+
+    const model = this.modelRepository.create({ modelName, year, brand });
+    return await this.modelRepository.save(model);
   }
 
-  async createModel(modelData: any) {
-    const newModel = this.modelRepository.create(modelData);
-    return await this.modelRepository.save(newModel);
-  }
+  async updateModel(id: number, updateModelDto: any) {
+    const { brandId, modelName, year } = updateModelDto;
 
-  async updateModel(id: number, modelData: any) {
-    await this.modelRepository.update(id, modelData);
-    return await this.getModelById(id);
+    const model = await this.modelRepository.findOne({
+      where: { modelId: id, deletedAt: null },
+      relations: ['brand'],
+    });
+
+    if (!model) throw new NotFoundException('Model not found');
+
+    if (brandId) {
+      const brand = await this.brandRepository.findOne({ where: { brandId, deletedAt: null } });
+      if (!brand) throw new NotFoundException('Brand not found');
+      model.brand = brand;
+    }
+
+    if (modelName) model.modelName = modelName;
+    if (year !== undefined) model.year = year;
+
+    return await this.modelRepository.save(model);
   }
 
   async deleteModel(id: number) {
-    return await this.modelRepository.softDelete(id);
+    const model = await this.modelRepository.findOne({ where: { modelId: id, deletedAt: null } });
+    if (!model) throw new NotFoundException('Model not found');
+
+    model.deletedAt = new Date();
+    return await this.modelRepository.save(model);
   }
 }

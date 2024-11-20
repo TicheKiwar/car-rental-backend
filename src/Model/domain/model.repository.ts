@@ -1,8 +1,6 @@
 export interface IModelRepository {
-    getAllModels();
-    getModelById(id: number);
-    createModel(modelData: any);
-    updateModel(id: number, modelData: any);
-    deleteModel(id: number);
-  }
-  
+  getModels();
+  createModel(createModelDto: any);
+  updateModel(id: number, updateModelDto: any);
+  deleteModel(id: number);
+}
