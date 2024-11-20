@@ -34,14 +34,23 @@ export class VehiclesService implements IVehiclesRepository {
     const model = await this.modelRepository.findOne({
       where: { modelId: createVehicleDto.modelId, deletedAt: null },
     });
-
+  
+    // Validar si el modelo existe
     if (!model) {
       throw new Error('Model not found');
     }
-
-    const vehicle = this.vehiclesRepository.create(createVehicleDto);
+  
+    // Crear la instancia del vehículo y asignar el modelo encontrado
+    const vehicle = this.vehiclesRepository.create({
+      ...createVehicleDto,
+      model, // Asociar el modelo al vehículo
+    });
+  
+    // Guardar el vehículo en la base de datos
     return await this.vehiclesRepository.save(vehicle);
   }
+  
+  
 
   async update(id: number, updateVehicleDto: UpdateVehicleDto) {
     const vehicle = await this.vehiclesRepository.findOne({
