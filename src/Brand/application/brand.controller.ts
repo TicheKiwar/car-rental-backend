@@ -16,8 +16,8 @@ export class BrandController {
   }
 
   @Post()
-  async createBrand(@Body() brandData: any) {
-    return await this.brandService.createBrand(brandData);
+  async create(@Body() brandData: { brandName: string }) {
+    return this.brandService.createBrand(brandData);
   }
 
   @Put(':id')

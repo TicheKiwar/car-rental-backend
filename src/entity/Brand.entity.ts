@@ -25,4 +25,9 @@ export class Brand {
 
   @OneToMany(() => Model, (model) => model.brand)
   models: Model[];
+
+    // Método para realizar un soft delete
+    softDelete() {
+      this.deletedAt = new Date();
+    }
 }

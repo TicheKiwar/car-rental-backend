@@ -1,34 +1,32 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Model } from 'src/entity/Model.entity';
+import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common';
+import { ModelService } from '../interface/model.service';
 
-@Injectable()
+@Controller('model') // Verifica que este decorador esté presente
 export class ModelController {
-  constructor(
-    @InjectRepository(Model)
-    private readonly modelRepository: Repository<Model>,
-  ) {}
+  constructor(private readonly modelService: ModelService) {}
 
+  @Get()
   async getAllModels() {
-    return await this.modelRepository.find({ where: { deletedAt: null } });
+    return await this.modelService.getAllModels();
   }
 
-  async getModelById(id: number) {
-    return await this.modelRepository.findOne({ where: { modelId: id, deletedAt: null } });
+  @Get(':id')
+  async getModelById(@Param('id') id: string) {
+    return await this.modelService.getModelById(+id);
   }
 
-  async createModel(modelData: any) {
-    const newModel = this.modelRepository.create(modelData);
-    return await this.modelRepository.save(newModel);
+  @Post()
+  async createModel(@Body() modelData: any) {
+    return await this.modelService.createModel(modelData);
   }
 
-  async updateModel(id: number, modelData: any) {
-    await this.modelRepository.update(id, modelData);
-    return await this.getModelById(id);
+  @Put(':id')
+  async updateModel(@Param('id') id: string, @Body() modelData: any) {
+    return await this.modelService.updateModel(+id, modelData);
   }
 
-  async deleteModel(id: number) {
-    return await this.modelRepository.softDelete(id);
+  @Delete(':id')
+  async deleteModel(@Param('id') id: string) {
+    return await this.modelService.deleteModel(+id);
   }
 }
