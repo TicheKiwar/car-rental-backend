@@ -25,7 +25,7 @@ import {
     async findOne(@Param('id', ParseIntPipe) id: number) {
       return await this.vehiclesService.findOne(id);
     }
-  
+    
     @Post()
     async create(@Body() createVehicleDto: CreateVehicleDto) {
       return await this.vehiclesService.create(createVehicleDto);
