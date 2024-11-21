@@ -5,7 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config/dist/config.module';
 import { UserModule } from './user/user.module';
 import { catalogModule } from './Catalog/Catalog.module';
+import { BrandModule } from './Brand/brand.module';
+import { ModelModule } from './Model/model.module';
+import { VehiclesModule } from './Vehicle/vehicle.module';
 import { AuthModule } from './Auth/auth.module';
+
 
 @Module({
   imports: [
@@ -24,7 +28,7 @@ import { AuthModule } from './Auth/auth.module';
       synchronize: false,
       ssl: process.env.SSL === 'false',
     }),
-    UserModule, AuthModule, catalogModule
+    UserModule, AuthModule, catalogModule, BrandModule, ModelModule, VehiclesModule
   ],
   controllers: [AppController],
   providers: [AppService],
