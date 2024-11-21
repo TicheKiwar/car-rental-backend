@@ -14,8 +14,8 @@ import { Employees } from "./Employees.entity";
 import { Roles } from "./Roles.entity";
 import { hash } from "bcrypt";
 
-@Index("users_email_key", ["email"], { unique: true })
-@Index("users_pkey", ["userId"], { unique: true })
+// @Index("users_email_key", ["email"], { unique: true })
+// @Index("users_pkey", ["userId"], { unique: true })
 @Entity("users", { schema: "public" })
 export class Users {
   @PrimaryGeneratedColumn({ type: "integer", name: "user_id" })

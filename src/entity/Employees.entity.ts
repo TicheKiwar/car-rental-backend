@@ -13,8 +13,8 @@ import { Users } from "./Users.entity";
 import { Rentals } from "./Rentals.entity";
 import { Reservations } from "./Reservations.entity";
 
-@Index("employees_pkey", ["employeeId"], { unique: true })
-@Index("employees_user_id_key", ["userId"], { unique: true })
+// @Index("employees_pkey", ["employeeId"], { unique: true })
+// @Index("employees_user_id_key", ["userId"], { unique: true })
 @Entity("employees", { schema: "public" })
 export class Employees {
   @PrimaryGeneratedColumn({ type: "integer", name: "employee_id" })
