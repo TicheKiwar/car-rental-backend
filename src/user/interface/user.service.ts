@@ -30,7 +30,7 @@ export class UserService implements IUserRepository {
 
         const user = await this.userRepository.findOne({
             where: { userId: userId },
-            relations: ['clients', 'employees'],
+            relations: ['clients', 'employees', 'role'],
         });
         if (!user)
             throw new NotFoundException(
@@ -46,7 +46,6 @@ export class UserService implements IUserRepository {
             .andWhere('user.deleteDate IS NULL')
             .addSelect('user.password')
             .getOne();
-        console.log(user)
         if (!user)
             throw new NotFoundException(
                 'El correo electrónico no es válido o no existe una cuenta asociada a este correo electrónico',
