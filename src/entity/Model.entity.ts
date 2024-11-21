@@ -22,15 +22,15 @@ export class Model {
   @Column("integer", { name: "year", nullable: true })
   year: number | null;
 
+  @ManyToOne(() => Brand, (brand) => brand.models)
+  @JoinColumn([{ name: "brand_id", referencedColumnName: "brandId" }])
+  brand: Brand;
+  
   @Column("timestamp without time zone", {
     name: "delete_date",
     nullable: true,
   })
   deleteDate: Date | null;
-
-  @ManyToOne(() => Brand, (brand) => brand.models)
-  @JoinColumn([{ name: "brand_id", referencedColumnName: "brandId" }])
-  brand: Brand;
 
   @OneToMany(() => Vehicles, (vehicles) => vehicles.model)
   vehicles: Vehicles[];
