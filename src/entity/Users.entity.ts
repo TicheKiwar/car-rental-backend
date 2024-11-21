@@ -33,6 +33,12 @@ export class Users {
   })
   deleteDate: Date | null;
 
+  @Column({ nullable: true })
+  passwordResetToken: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  passwordResetExpires: Date;
+
   @OneToOne(() => Clients, (clients) => clients.user)
   clients: Clients;
 
@@ -46,7 +52,7 @@ export class Users {
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {
-    if (!this.password) {
+    if (!this.password || this.password.startsWith('$2b$')) {
       return;
     }
     this.password = await hash(this.password, 10);

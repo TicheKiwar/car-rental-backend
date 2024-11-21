@@ -7,8 +7,8 @@ import {
 } from "typeorm";
 import { Model } from "./Model.entity";
 
-// @Index("brand_pkey", ["brandId"], { unique: true })
-// @Index("brand_brand_name_key", ["brandName"], { unique: true })
+@Index("brand_pkey", ["brandId"], { unique: true })
+@Index("brand_brand_name_key", ["brandName"], { unique: true })
 @Entity("brand", { schema: "public" })
 export class Brand {
   @PrimaryGeneratedColumn({ type: "integer", name: "brand_id" })
@@ -21,7 +21,7 @@ export class Brand {
     name: "delete_date",
     nullable: true,
   })
-  deletedAt: Date | null;
+  deleteDate: Date | null;
 
   @OneToMany(() => Model, (model) => model.brand)
   models: Model[];

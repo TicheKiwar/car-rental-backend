@@ -10,8 +10,8 @@ import {
 import { Reservations } from "./Reservations.entity";
 import { Model } from "./Model.entity";
 
-// @Index("vehicles_license_plate_key", ["licensePlate"], { unique: true })
-// @Index("vehicles_pkey", ["vehicleId"], { unique: true })
+@Index("vehicles_license_plate_key", ["licensePlate"], { unique: true })
+@Index("vehicles_pkey", ["vehicleId"], { unique: true })
 @Entity("vehicles", { schema: "public" })
 export class Vehicles {
   @PrimaryGeneratedColumn({ type: "integer", name: "vehicle_id" })
@@ -80,7 +80,7 @@ export class Vehicles {
     name: "delete_date",
     nullable: true,
   })
-  deletedAt: Date | null;
+  deleteDate: Date | null;
 
   @OneToMany(() => Reservations, (reservations) => reservations.vehicle)
   reservations: Reservations[];

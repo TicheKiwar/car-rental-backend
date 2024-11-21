@@ -9,7 +9,7 @@ import {
 import { Employees } from "./Employees.entity";
 import { Reservations } from "./Reservations.entity";
 
-// @Index("rentals_pkey", ["rentalId"], { unique: true })
+@Index("rentals_pkey", ["rentalId"], { unique: true })
 @Entity("rentals", { schema: "public" })
 export class Rentals {
   @PrimaryGeneratedColumn({ type: "integer", name: "rental_id" })
