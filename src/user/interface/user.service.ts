@@ -30,11 +30,11 @@ export class UserService implements IUserRepository {
 
         const user = await this.userRepository.findOne({
             where: { userId: userId },
-            relations: ['clients', 'employees'],
+            relations: ['clients', 'employees', 'role'],
         });
         if (!user)
             throw new NotFoundException(
-                'El usuario no existe o no se encuentra autorizado',
+                'No se ha encontrado un usuario asociado',
             );
         return user;
     }
@@ -46,10 +46,9 @@ export class UserService implements IUserRepository {
             .andWhere('user.deleteDate IS NULL')
             .addSelect('user.password')
             .getOne();
-        console.log(user)
         if (!user)
             throw new NotFoundException(
-                'El usuario no existe o no se encuentra autorizado',
+                'El correo electrónico no es válido o no existe una cuenta asociada a este correo electrónico',
             );
         return user;
     }
@@ -77,7 +76,6 @@ export class UserService implements IUserRepository {
         };
     }
 
-
     async createUser(dto: CreateUserDto, role: number): Promise<Users> {
         const user = this.userRepository.create({
             email: dto.email,
@@ -86,5 +84,33 @@ export class UserService implements IUserRepository {
         });
 
         return await this.userRepository.save(user);
+    }
+
+    async saveUser(user: Users): Promise<Users> {
+        return await this.userRepository.save(user);
+    }
+
+    async savePasswordResetToken(userId: number, token: string): Promise<void> {
+        const user = await this.findById(userId);
+        if (!user) {
+            throw new Error('Usuario no encontrado');
+        }
+
+        user.passwordResetToken = token;
+        user.passwordResetExpires = new Date(Date.now() + 3600000);
+
+        await this.userRepository.save(user);
+    }
+
+    async verifyPasswordResetToken(token: string): Promise<Users> {
+        const user = await this.userRepository.findOne({
+            where: { passwordResetToken: token },
+        });
+
+        if (!user || user.passwordResetExpires < new Date()) {
+            throw new NotFoundException('El enlace de recuperación de contraseña ha expirado');
+        }
+
+        return user;
     }
 }

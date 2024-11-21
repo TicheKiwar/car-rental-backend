@@ -8,6 +8,8 @@ import { AuthController } from './application/auth.controller';
 import { JwtStrategy } from './application/strategies/jwt.strategy';
 import { LocalStrategy } from './application/strategies/local.strategy';
 import { AuthService } from './domain/auth.service';
+import { RecoverPasswordService } from './domain/recover-password.service';
+import { MailerService } from './domain/mailer.service';
 
 @Module({
   imports: [
@@ -23,7 +25,7 @@ import { AuthService } from './domain/auth.service';
     }),
     UserModule,
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, RecoverPasswordService, MailerService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
 })
 export class AuthModule { }
