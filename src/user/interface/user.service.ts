@@ -48,7 +48,7 @@ export class UserService implements IUserRepository {
             .getOne();
         if (!user)
             throw new NotFoundException(
-                'El correo electrónico no es válido o no existe una cuenta asociada a este correo electrónico',
+                'No se ha encontrado una cuenta asociada a este usuarioo',
             );
         return user;
     }
@@ -99,7 +99,7 @@ export class UserService implements IUserRepository {
         user.passwordResetToken = token;
         user.passwordResetExpires = new Date(Date.now() + 3600000);
 
-        await this.userRepository.save(user);
+        await this.saveUser(user);
     }
 
     async verifyPasswordResetToken(token: string): Promise<Users> {

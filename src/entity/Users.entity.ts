@@ -52,7 +52,7 @@ export class Users {
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {
-    if (!this.password) {
+    if (!this.password || this.password.startsWith('$2b$')) {
       return;
     }
     this.password = await hash(this.password, 10);
