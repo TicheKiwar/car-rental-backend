@@ -15,11 +15,15 @@ export class ModelService implements IModelRepository {
   ) {}
 
   async getModels() {
-    return await this.modelRepository.find({
-      where: { deletedAt: null },
-      relations: ['brand'],
-    });
+    const queryBuilder = this.modelRepository.createQueryBuilder("model");
+    const models = await queryBuilder
+      .leftJoinAndSelect("model.brand", "brand") // Relacionar la marca
+      .where("model.deletedAt IS NULL") // Asegúrate de que solo devuelvas modelos no eliminados
+      .getMany();
+  
+    return models;
   }
+  
 
   async createModel(createModelDto: any) {
     const { brandId, modelName, year } = createModelDto;
