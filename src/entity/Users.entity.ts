@@ -33,6 +33,12 @@ export class Users {
   })
   deleteDate: Date | null;
 
+  @Column({ nullable: true })
+  passwordResetToken: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  passwordResetExpires: Date;
+
   @OneToOne(() => Clients, (clients) => clients.user)
   clients: Clients;
 
