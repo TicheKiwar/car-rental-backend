@@ -9,7 +9,8 @@ import { BrandModule } from './Brand/brand.module';
 import { ModelModule } from './Model/model.module';
 import { VehiclesModule } from './Vehicle/vehicle.module';
 import { AuthModule } from './Auth/auth.module';
-
+import { ServeStaticModule } from '@nestjs/serve-static'; // Importa ServeStaticModule
+import { join } from 'path'; // Para manejar las rutas
 
 @Module({
   imports: [
@@ -25,8 +26,12 @@ import { AuthModule } from './Auth/auth.module';
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
       ssl: process.env.SSL === 'false',
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'), // Ruta a la carpeta 'public' donde están las imágenes
+      serveRoot: '/images/vehicles', // Ruta desde la cual los archivos serán accesibles
     }),
     UserModule, AuthModule, catalogModule, BrandModule, ModelModule, VehiclesModule
   ],
