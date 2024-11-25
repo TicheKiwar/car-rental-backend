@@ -45,7 +45,6 @@ export class CatalogService implements ICatalogRepository {
             brandName: true,
           }
         },
-        image: true
       },
       where: { deletedAt: null },
       relations: ["model", "model.brand"],
