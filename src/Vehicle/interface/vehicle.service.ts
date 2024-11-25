@@ -14,7 +14,7 @@ export class VehiclesService implements IVehiclesRepository {
     private readonly vehiclesRepository: Repository<Vehicles>,
     @InjectRepository(Model)
     private readonly modelRepository: Repository<Model>,
-  ) {}
+  ) { }
 
   async findAll() {
     const queryBuilder = this.vehiclesRepository.createQueryBuilder("vehicle");
@@ -22,10 +22,11 @@ export class VehiclesService implements IVehiclesRepository {
       .leftJoinAndSelect("vehicle.model", "model") // Relacionar el modelo
       .leftJoinAndSelect("model.brand", "brand")  // Relacionar la marca del modelo
       .where("vehicle.deletedAt IS NULL")        // Filtrar vehículos no eliminados
+      .orderBy("vehicle.vehicleId")
       .getMany();
-  
+
     return vehicles;
-  } 
+  }
 
   async findOne(id: number) {
     return await this.vehiclesRepository.findOne({
@@ -38,23 +39,21 @@ export class VehiclesService implements IVehiclesRepository {
     const model = await this.modelRepository.findOne({
       where: { modelId: createVehicleDto.modelId, deletedAt: null },
     });
-  
-    // Validar si el modelo existe
+
     if (!model) {
       throw new Error('Model not found');
     }
-  
-    // Crear la instancia del vehículo y asignar el modelo encontrado
+
     const vehicle = this.vehiclesRepository.create({
       ...createVehicleDto,
-      model, // Asociar el modelo al vehículo
+      model,
     });
-  
+
     // Guardar el vehículo en la base de datos
     return await this.vehiclesRepository.save(vehicle);
   }
-  
-  
+
+
 
   async update(id: number, updateVehicleDto: UpdateVehicleDto) {
     const vehicle = await this.vehiclesRepository.findOne({
@@ -73,6 +72,7 @@ export class VehiclesService implements IVehiclesRepository {
       if (!model) {
         throw new Error('Model not found');
       }
+      vehicle.model = model;
     }
 
     Object.assign(vehicle, updateVehicleDto);

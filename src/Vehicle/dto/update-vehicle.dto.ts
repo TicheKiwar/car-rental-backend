@@ -59,13 +59,5 @@ export class UpdateVehicleDto {
 
   @IsOptional()
   @IsString()
-  registrationDate?: string;
-
-  @IsOptional()
-  @IsString()
   costDayDelay?: string;
-
-  @IsOptional()
-  @IsString()
-  deletedAt?: string;
 }

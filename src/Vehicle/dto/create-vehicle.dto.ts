@@ -17,54 +17,36 @@ export class CreateVehicleDto {
   @IsNotEmpty()
   modelId: number;
 
-  @IsOptional()
   @IsString()
   color?: string;
 
-  @IsOptional()
   @IsString()
   transmission?: string;
 
-  @IsOptional()
   @IsDecimal()
   dailyRate?: string;
 
-  @IsOptional()
   @IsInt()
   capacity?: number;
 
-  @IsOptional()
   @IsInt()
   maxSpeed?: number;
 
-  @IsOptional()
   @IsInt()
   doorCount?: number;
 
-  @IsOptional()
   @IsString()
   fuelType?: string;
 
-  @IsOptional()
   @IsInt()
   mileage?: number;
 
-  @IsOptional()
   @IsDateString()
   lastRevisionDate?: string;
 
-  @IsOptional()
-  @IsDateString()
-  registrationDate?: string;
-
-  @IsOptional()
   @IsDecimal()
   costDayDelay?: string;
 
-  @IsOptional()
-  deletedAt?: Date;
-
-  @IsOptional()
   @IsString()
   image?: string;
 }
