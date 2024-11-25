@@ -4,13 +4,13 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
-import { catalogModule } from './Catalog/catalog.module';  // Asegúrate de que el nombre de la clase sea 'CatalogModule'
 import { BrandModule } from './Brand/brand.module';
 import { ModelModule } from './Model/model.module';
 import { VehiclesModule } from './Vehicle/vehicle.module';
 import { AuthModule } from './Auth/auth.module';
 import { ServeStaticModule } from '@nestjs/serve-static';  // Importa ServeStaticModule
 import { join } from 'path';  // Para manejar las rutas
+import { catalogModule } from './Catalog/Catalog.module';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import { join } from 'path';  // Para manejar las rutas
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
       ssl: process.env.SSL === 'false',
     }),
     ServeStaticModule.forRoot({
