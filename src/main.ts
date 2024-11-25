@@ -12,6 +12,7 @@ async function bootstrap() {
     })
   );
   app.enableCors({
+    origin: '*', // Permitir solicitudes desde cualquier origen
     methods: ['GET', 'POST', 'PUT','PATCH', 'DELETE'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Cabeceras permitidas
     preflightContinue: false,

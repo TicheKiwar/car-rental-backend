@@ -24,4 +24,48 @@ export class UpdateVehicleDto {
   @IsOptional()
   @IsString()
   transmission?: string;
+
+  @IsOptional()
+  @IsString()
+  image?: string;
+
+  @IsOptional()
+  @IsString()
+  dailyRate?: string;
+
+  @IsOptional()
+  @IsInt()
+  capacity?: number;
+
+  @IsOptional()
+  @IsInt()
+  maxSpeed?: number;
+
+  @IsOptional()
+  @IsInt()
+  doorCount?: number;
+
+  @IsOptional()
+  @IsString()
+  fuelType?: string;
+
+  @IsOptional()
+  @IsInt()
+  mileage?: number;
+
+  @IsOptional()
+  @IsString()
+  lastRevisionDate?: string;
+
+  @IsOptional()
+  @IsString()
+  registrationDate?: string;
+
+  @IsOptional()
+  @IsString()
+  costDayDelay?: string;
+
+  @IsOptional()
+  @IsString()
+  deletedAt?: string;
 }

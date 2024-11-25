@@ -17,11 +17,15 @@ export class VehiclesService implements IVehiclesRepository {
   ) {}
 
   async findAll() {
-    return await this.vehiclesRepository.find({
-      where: { deletedAt: null },
-      relations: ['model', 'model.brand'],
-    });
-  }
+    const queryBuilder = this.vehiclesRepository.createQueryBuilder("vehicle");
+    const vehicles = await queryBuilder
+      .leftJoinAndSelect("vehicle.model", "model") // Relacionar el modelo
+      .leftJoinAndSelect("model.brand", "brand")  // Relacionar la marca del modelo
+      .where("vehicle.deletedAt IS NULL")        // Filtrar vehículos no eliminados
+      .getMany();
+  
+    return vehicles;
+  } 
 
   async findOne(id: number) {
     return await this.vehiclesRepository.findOne({
