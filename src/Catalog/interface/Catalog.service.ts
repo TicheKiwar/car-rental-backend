@@ -28,29 +28,29 @@ export class CatalogService implements ICatalogRepository {
   }
 
   async getCatalog() {
-    const catalog = await this.catalogRepository.find({
-      select: {
-        vehicleId: true,
-        licensePlate: true,
-        type: true,
-        status: true,
-        color: true,
-        doorCount: true,
-        image:true,
-        model: {
-          modelId: true,
-          modelName: true,
-          brand: {
-            brandId: true,
-            brandName: true,
-          }
-        },
-      },
-      where: { deletedAt: null },
-      relations: ["model", "model.brand"],
-    });
+    const catalog = await this.catalogRepository
+      .createQueryBuilder('catalog')
+      .select([
+        'catalog.vehicleId',
+        'catalog.licensePlate',
+        'catalog.type',
+        'catalog.status',
+        'catalog.color',
+        'catalog.doorCount',
+        'catalog.image',
+        'model.modelId',
+        'model.modelName',
+        'brand.brandId',
+        'brand.brandName',
+      ])
+      .leftJoin('catalog.model', 'model') // Relaciona con la entidad "model"
+      .leftJoin('model.brand', 'brand') // Relaciona con la entidad "brand" desde "model"
+      .where('catalog.deletedAt IS NULL') // Filtra por registros no eliminados
+      .getMany(); // Ejecuta la consulta y obtiene los resultados
+
     return catalog;
   }
+
 
   async findByVehicle(idVehicle: number) {
     const vehicle = await this.catalogRepository.findOne({
