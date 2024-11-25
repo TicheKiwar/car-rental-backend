@@ -6,12 +6,12 @@ import {
     Put,
     Param,
     Body,
-    ParseIntPipe,
+    ParseIntPipe, UseInterceptors, UploadedFile
   } from '@nestjs/common';
   import { VehiclesService } from '../interface/vehicle.service';
   import { CreateVehicleDto } from '../dto/create-vehicle.dto';
   import { UpdateVehicleDto } from '../dto/update-vehicle.dto';
-  
+
   @Controller('vehicles')
   export class VehiclesController {
     constructor(private readonly vehiclesService: VehiclesService) {}

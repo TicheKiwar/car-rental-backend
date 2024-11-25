@@ -63,4 +63,8 @@ export class CreateVehicleDto {
 
   @IsOptional()
   deletedAt?: Date;
+
+  @IsOptional()
+  @IsString()
+  image?: string;
 }
