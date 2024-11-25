@@ -10,9 +10,9 @@ import {
 import { Users } from "./Users.entity";
 import { Reservations } from "./Reservations.entity";
 
-// @Index("clients_pkey", ["clientId"], { unique: true })
-// @Index("clients_dni_key", ["dni"], { unique: true })
-// @Index("clients_user_id_key", ["userId"], { unique: true })
+@Index("clients_pkey", ["clientId"], { unique: true })
+@Index("clients_dni_key", ["dni"], { unique: true })
+@Index("clients_user_id_key", ["userId"], { unique: true })
 @Entity("clients", { schema: "public" })
 export class Clients {
   @PrimaryGeneratedColumn({ type: "integer", name: "client_id" })

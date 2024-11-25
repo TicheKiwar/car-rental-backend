@@ -7,8 +7,8 @@ import {
 } from "typeorm";
 import { Users } from "./Users.entity";
 
-// @Index("roles_pkey", ["roleId"], { unique: true })
-// @Index("roles_role_name_key", ["roleName"], { unique: true })
+@Index("roles_pkey", ["roleId"], { unique: true })
+@Index("roles_role_name_key", ["roleName"], { unique: true })
 @Entity("roles", { schema: "public" })
 export class Roles {
   @PrimaryGeneratedColumn({ type: "integer", name: "role_id" })
