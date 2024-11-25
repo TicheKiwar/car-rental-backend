@@ -82,6 +82,9 @@ export class Vehicles {
   })
   deletedAt: Date | null;
 
+  @Column("character varying", { name: "image", nullable: true, length: 255 })
+  image: string | null;
+
   @OneToMany(() => Reservations, (reservations) => reservations.vehicle)
   reservations: Reservations[];
 
