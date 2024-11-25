@@ -21,7 +21,7 @@ export class Brand {
     name: "delete_date",
     nullable: true,
   })
-  deleteDate: Date | null;
+  deletedAt: Date | null;
 
   @OneToMany(() => Model, (model) => model.brand)
   models: Model[];

@@ -18,12 +18,12 @@ export class CatalogService implements ICatalogRepository {
   ) {}
 
   async getModel() {
-    const model = await this.modelRepository.find({ where: { deleteDate: null } });
+    const model = await this.modelRepository.find({ where: { deletedAt: null } });
     return model;
   }
 
   async getBrand() {
-    const brand = await this.brandRepository.find({ where: { deleteDate: null } });
+    const brand = await this.brandRepository.find({ where: { deletedAt: null } });
     return brand;
   }
 
@@ -45,7 +45,7 @@ export class CatalogService implements ICatalogRepository {
           }
         }
       },
-      where: { deleteDate: null },
+      where: { deletedAt: null },
       relations: ["model", "model.brand"],
     });
     return catalog;
@@ -55,7 +55,7 @@ export class CatalogService implements ICatalogRepository {
     const vehicle = await this.catalogRepository.findOne({
       where: {
         vehicleId: idVehicle,
-        deleteDate: null,
+        deletedAt: null,
       },
       relations: ["model", "model.brand"]
     });
@@ -64,7 +64,7 @@ export class CatalogService implements ICatalogRepository {
 
   async findByModel(idModel: number) {
     const model = await this.modelRepository.findOne({
-      where: { modelId: idModel, deleteDate: null },
+      where: { modelId: idModel, deletedAt: null },
       relations: ["vehicles"]
     });
     return model;
@@ -72,7 +72,7 @@ export class CatalogService implements ICatalogRepository {
 
   async findByBrand(idBrand: number) {
     const brand = await this.brandRepository.findOne({
-      where: { brandId: idBrand, deleteDate: null },
+      where: { brandId: idBrand, deletedAt: null },
     });
     return brand;
   }

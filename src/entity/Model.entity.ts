@@ -30,7 +30,7 @@ export class Model {
     name: "delete_date",
     nullable: true,
   })
-  deleteDate: Date | null;
+  deletedAt: Date | null;
 
   @OneToMany(() => Vehicles, (vehicles) => vehicles.model)
   vehicles: Vehicles[];

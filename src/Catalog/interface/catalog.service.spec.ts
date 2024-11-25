@@ -54,10 +54,11 @@ describe('CatalogService', () => {
           brand: {
             brandId: 1,
             brandName: 'Brand A',
+            softDelete:null,
             models: [],
-            deleteDate:null,
+            deletedAt:null,
           },
-          deleteDate: null,
+          deletedAt: null,
           vehicles: [],
         },
       ];
@@ -65,19 +66,19 @@ describe('CatalogService', () => {
   
       const result = await service.getModel();
       expect(result).toEqual(mockModels);
-      expect(modelRepository.find).toHaveBeenCalledWith({ where: { deleteDate: null } });
+      expect(modelRepository.find).toHaveBeenCalledWith({ where: { deletedAt: null } });
     });
   });
   
 
   describe('getBrand', () => {
     it('should return a list of brands', async () => {
-      const mockBrands = [{ brandId: 1, brandName: 'Brand A', deleteDate: null, models:[] }];
+      const mockBrands = [{ brandId: 1, brandName: 'Brand A',softDelete:null,  deletedAt: null, models:[] }];
       jest.spyOn(brandRepository, 'find').mockResolvedValue(mockBrands);
 
       const result = await service.getBrand();
       expect(result).toEqual(mockBrands);
-      expect(brandRepository.find).toHaveBeenCalledWith({ where: { deleteDate: null } });
+      expect(brandRepository.find).toHaveBeenCalledWith({ where: { deletedAt: null } });
     });
   });
 
@@ -96,7 +97,7 @@ describe('CatalogService', () => {
               maxSpeed: 200,
               fuelType: "",
               transmission: "",
-              deleteDate: null,
+              deletedAt: null,
               mileage: 3,
               lastRevisionDate: "",
               registrationDate: "",
@@ -111,9 +112,10 @@ describe('CatalogService', () => {
                   brandId: 1, 
                   brandName: 'Brand A', 
                   models: [] ,
-                  deleteDate: null,
+                  deletedAt: null,
+                  softDelete:null
                 },
-                deleteDate: null,
+                deletedAt: null,
               },
             },
           ];
@@ -123,7 +125,7 @@ describe('CatalogService', () => {
       expect(result).toEqual(mockCatalog);
       expect(catalogRepository.find).toHaveBeenCalledWith({
         select: expect.any(Object),
-        where: { deleteDate: null },
+        where: { deletedAt: null },
         relations: ['model', 'model.brand'],
       });
     });
@@ -144,7 +146,7 @@ describe('CatalogService', () => {
               maxSpeed: 200,
               fuelType: "",
               transmission: "",
-              deleteDate: null,
+              deletedAt: null,
               mileage: 3,
               lastRevisionDate: "",
               registrationDate: "",
@@ -159,9 +161,10 @@ describe('CatalogService', () => {
                   brandId: 1, 
                   brandName: 'Brand A', 
                   models: [] ,
-                  deleteDate: null,
+                  deletedAt: null,
+                  softDelete:null
                 },
-                deleteDate: null,
+                deletedAt: null,
               },
             }
       jest.spyOn(catalogRepository, 'findOne').mockResolvedValue(mockVehicle);
@@ -169,7 +172,7 @@ describe('CatalogService', () => {
       const result = await service.findByVehicle(1);
       expect(result).toEqual(mockVehicle);
       expect(catalogRepository.findOne).toHaveBeenCalledWith({
-        where: { vehicleId: 1, deleteDate: null },
+        where: { vehicleId: 1, deletedAt: null },
         relations: ['model', 'model.brand'],
       });
     });
@@ -184,7 +187,7 @@ describe('CatalogService', () => {
         brand:{brandId: 1,
             brandName: 'Brand A',
             models: [],
-            deleteDate:null,},
+            deletedAt:null,},
         vehicles: [{ vehicleId: 1,
             licensePlate: 'ABC123',
             type: 'SUV',
@@ -196,7 +199,7 @@ describe('CatalogService', () => {
             maxSpeed: 200,
             fuelType: "",
             transmission: "",
-            deleteDate: null,
+            deletedAt: null,
             mileage: 3,
             lastRevisionDate: "",
             registrationDate: "",
@@ -210,20 +213,21 @@ describe('CatalogService', () => {
               brand: { 
                 brandId: 1, 
                 brandName: 'Brand A', 
+                softDelete:null,
                 models: [] ,
-                deleteDate: null,
+                deletedAt: null,
               },
-              deleteDate: null,
+              deletedAt: null,
             },
           }],
-          deleteDate:null,
+          deletedAt:null,
       };
       jest.spyOn(modelRepository, 'findOne').mockResolvedValue(mockModel);
 
       const result = await service.findByModel(1);
       expect(result).toEqual(mockModel);
       expect(modelRepository.findOne).toHaveBeenCalledWith({
-        where: { modelId: 1, deleteDate: null },
+        where: { modelId: 1, deletedAt: null },
         relations: ['vehicles'],
       });
     });
@@ -231,13 +235,13 @@ describe('CatalogService', () => {
 
   describe('findByBrand', () => {
     it('should return a brand by ID', async () => {
-      const mockBrand = { brandId: 1, brandName: 'Brand A', models:[], deleteDate:null };
+      const mockBrand = { brandId: 1, brandName: 'Brand A',softDelete:null, models:[], deletedAt:null };
       jest.spyOn(brandRepository, 'findOne').mockResolvedValue(mockBrand);
 
       const result = await service.findByBrand(1);
       expect(result).toEqual(mockBrand);
       expect(brandRepository.findOne).toHaveBeenCalledWith({
-        where: { brandId: 1, deleteDate: null },
+        where: { brandId: 1, deletedAt: null },
       });
     });
   });
