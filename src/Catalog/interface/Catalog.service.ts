@@ -15,7 +15,7 @@ export class CatalogService implements ICatalogRepository {
     private readonly modelRepository: Repository<Model>,
     @InjectRepository(Brand)
     private readonly brandRepository: Repository<Brand>
-  ) {}
+  ) { }
 
   async getModel() {
     const model = await this.modelRepository.find({ where: { deletedAt: null } });
@@ -43,7 +43,8 @@ export class CatalogService implements ICatalogRepository {
             brandId: true,
             brandName: true,
           }
-        }
+        },
+        image: true
       },
       where: { deletedAt: null },
       relations: ["model", "model.brand"],
