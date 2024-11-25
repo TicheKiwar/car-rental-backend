@@ -36,6 +36,7 @@ export class CatalogService implements ICatalogRepository {
         status: true,
         color: true,
         doorCount: true,
+        image:true,
         model: {
           modelId: true,
           modelName: true,
