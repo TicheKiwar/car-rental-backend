@@ -46,7 +46,11 @@ export class CreateVehicleDto {
 
   @IsDecimal()
   costDayDelay?: string;
+  
+  @IsOptional()
+  deletedAt?: Date;
 
+  @IsOptional()
   @IsString()
   image?: string;
 }

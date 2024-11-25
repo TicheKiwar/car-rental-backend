@@ -60,4 +60,6 @@ export class UpdateVehicleDto {
   @IsOptional()
   @IsString()
   costDayDelay?: string;
+
+
 }
