@@ -10,8 +10,8 @@ import {
 import { Reservations } from "./Reservations.entity";
 import { Model } from "./Model.entity";
 
-@Index("vehicles_license_plate_key", ["licensePlate"], { unique: true })
-@Index("vehicles_pkey", ["vehicleId"], { unique: true })
+// @Index("vehicles_license_plate_key", ["licensePlate"], { unique: true })
+// @Index("vehicles_pkey", ["vehicleId"], { unique: true })
 @Entity("vehicles", { schema: "public" })
 export class Vehicles {
   @PrimaryGeneratedColumn({ type: "integer", name: "vehicle_id" })
@@ -65,7 +65,7 @@ export class Vehicles {
   @Column("date", { name: "last_revision_date", nullable: true })
   lastRevisionDate: string | null;
 
-  @Column("date", { name: "registration_date", nullable: true })
+  @Column("date", { name: "registrationdate", nullable: true })
   registrationDate: string | null;
 
   @Column("numeric", {

@@ -10,7 +10,7 @@ import {
 import { Brand } from "./Brand.entity";
 import { Vehicles } from "./Vehicles.entity";
 
-@Index("model_pkey", ["modelId"], { unique: true })
+// @Index("model_pkey", ["modelId"], { unique: true })
 @Entity("model", { schema: "public" })
 export class Model {
   @PrimaryGeneratedColumn({ type: "integer", name: "model_id" })
