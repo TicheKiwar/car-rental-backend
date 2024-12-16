@@ -27,5 +27,7 @@ import { MailerService } from './domain/mailer.service';
   ],
   providers: [AuthService, RecoverPasswordService, MailerService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
+  exports:[AuthService, PassportModule, // Exportar PassportModule
+    JwtModule,]
 })
 export class AuthModule { }

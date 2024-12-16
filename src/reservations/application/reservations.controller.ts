@@ -7,14 +7,12 @@ import { Role } from 'src/common/decorators/role.decorator';
 import { RoleGuard } from 'src/Auth/guards/role-auth.guard';
 import { User } from 'src/common/decorators/user.decorator';
 import { Users } from 'src/entity/Users.entity';
-import { UserService } from 'src/user/interface/user.service';
 import { JwtAuthGuard } from 'src/Auth/guards/jwt-auth.guard';
 
 @Controller('reservations')
 export class ReservationsController {
   constructor(
     private readonly reservationsService: ReservationsService,
-    private readonly userService: UserService
   ) {}
 
   @Get("Employee")
@@ -29,9 +27,8 @@ export class ReservationsController {
   @UseGuards(JwtAuthGuard,RoleGuard)
   async getAllByUser(@User() user: Users ) {
     return this.reservationsService.getAllByUser(user.userId)
-
-     
   }
+  
   @Post("")
   async createReservation(@Body()createreservationDto: CreateReservationDto): Promise<boolean> {
     return this.reservationsService.createReservation(createreservationDto)
