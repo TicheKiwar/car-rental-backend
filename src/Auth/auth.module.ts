@@ -9,7 +9,7 @@ import { JwtStrategy } from './application/strategies/jwt.strategy';
 import { LocalStrategy } from './application/strategies/local.strategy';
 import { AuthService } from './domain/auth.service';
 import { RecoverPasswordService } from './domain/recover-password.service';
-import { MailerService } from './domain/mailer.service';
+import { MailerService } from '../user/interface/mailer.service';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { MailerService } from './domain/mailer.service';
     }),
     UserModule,
   ],
-  providers: [AuthService, RecoverPasswordService, MailerService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, RecoverPasswordService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
 })
 export class AuthModule { }

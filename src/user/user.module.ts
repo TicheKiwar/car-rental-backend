@@ -10,12 +10,12 @@ import { EmployeeService } from './interface/employee.service';
 import { ClientController } from './application/client.controller';
 import { EmployeeController } from './application/employee.controller';
 import { PositionModule } from 'src/position/position.module';
-
+import { MailerService } from './interface/mailer.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Users, Clients, Employees]), PositionModule],
-  providers: [UserService, ClientService, EmployeeService],
+  providers: [UserService, ClientService, EmployeeService, MailerService],
   controllers: [UserController, ClientController, EmployeeController],
-  exports: [UserService]
+  exports: [UserService, MailerService]
 })
 export class UserModule { }
