@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put } from "@nestjs/common";
 import { EmployeeService } from "../interface/employee.service";
 import { CreateEmployeeDto } from "../interface/dtos/create-employee";
 import { UpdateEmployeeDto } from "../interface/dtos/update-employee.dto";
@@ -22,7 +22,7 @@ export class EmployeeController {
         return this.employeeService.getAllEmployees();
     }
 
-    @Put(':id')
+    @Patch(':id')
     async updateClient(
         @Param('id', ParseIntPipe) id: number,
         @Body() dto: UpdateEmployeeDto,
