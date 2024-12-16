@@ -33,7 +33,7 @@ export class RoleGuard implements CanActivate {
     if (!userWithRole.role || userWithRole.role.roleName !== requiredRole) {
       throw new ForbiddenException(`User does not have the required role: ${requiredRole}`);
     }
-
+    
     return true;
   }
 }
