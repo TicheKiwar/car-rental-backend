@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { EmployeeService } from "../interface/employee.service";
 import { CreateEmployeeDto } from "../interface/dtos/create-employee";
+import { UpdateEmployeeDto } from "../interface/dtos/update-employee.dto";
 
 @Controller('employees')
 export class EmployeeController {
@@ -19,5 +20,18 @@ export class EmployeeController {
     @Get()
     async getAllEmployees() {
         return this.employeeService.getAllEmployees();
+    }
+
+    @Put(':id')
+    async updateClient(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() dto: UpdateEmployeeDto,
+    ) {
+        return await this.employeeService.updateEmployee(id, dto);
+    }
+
+    @Delete(':id')
+    async deleteClient(@Param('id', ParseIntPipe) id: number) {
+        return await this.employeeService.deleteEmployee(id);
     }
 }
