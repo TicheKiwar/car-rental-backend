@@ -20,6 +20,7 @@ export class ClientService implements IClientRepository {
             .createQueryBuilder('client')
             .leftJoinAndSelect('client.user', 'user')
             .where('client.clientId = :id', { id })
+            .andWhere('user.isEmailVerified = :value', { value: true })
             .andWhere('user.deleteDate IS NULL')
             .addSelect('user.password')
             .getOne();
@@ -35,6 +36,7 @@ export class ClientService implements IClientRepository {
             .createQueryBuilder('client')
             .leftJoinAndSelect('client.user', 'user')
             .where('user.deleteDate IS NULL')
+            .andWhere('user.isEmailVerified = :value', { value: true })
             .addSelect('user.password')
             .orderBy("client.clientId")
             .getMany();

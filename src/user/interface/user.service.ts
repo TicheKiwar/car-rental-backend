@@ -6,6 +6,7 @@ import { Users } from 'src/entity/Users.entity';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { Clients } from 'src/entity/Clients.entity';
 import { Employees } from 'src/entity/Employees.entity';
+import { MailerService } from './mailer.service';
 
 @Injectable()
 export class UserService implements IUserRepository {
@@ -16,7 +17,7 @@ export class UserService implements IUserRepository {
         private readonly clientRepository: Repository<Clients>,
         @InjectRepository(Employees)
         private readonly employeeRepository: Repository<Employees>,
-
+        private readonly emailService: MailerService
     ) { }
 
     async getAllUsers() {
@@ -27,7 +28,6 @@ export class UserService implements IUserRepository {
     }
 
     async findById(userId: number) {
-
         const user = await this.userRepository.findOne({
             where: { userId: userId },
             relations: ['clients', 'employees', 'role'],
@@ -43,6 +43,7 @@ export class UserService implements IUserRepository {
         const user = await this.userRepository
             .createQueryBuilder('user')
             .where('user.email = :email', { email })
+            .andWhere('user.isEmailVerified = :value', { value: true })
             .andWhere('user.deleteDate IS NULL')
             .addSelect('user.password')
             .getOne();
@@ -57,6 +58,7 @@ export class UserService implements IUserRepository {
         const [emailUser, clientDniUser, employeeDniUser] = await Promise.all([
             this.userRepository.createQueryBuilder('user')
                 .where('user.email = :email', { email })
+                .andWhere('user.isEmailVerified = :value', { value: true })
                 .andWhere('user.deleteDate IS NULL')
                 .andWhere('user.userId != :id', { id })
                 .getOne(),
@@ -64,6 +66,7 @@ export class UserService implements IUserRepository {
             this.clientRepository.createQueryBuilder('client')
                 .leftJoin('client.user', 'user')
                 .where('client.dni = :dni', { dni })
+                .andWhere('user.isEmailVerified = :value', { value: true })
                 .andWhere('user.deleteDate IS NULL')
                 .andWhere('user.userId != :id', { id })
                 .getOne(),
@@ -71,6 +74,7 @@ export class UserService implements IUserRepository {
             this.employeeRepository.createQueryBuilder('employee')
                 .leftJoin('employee.user', 'user')
                 .where('employee.dni = :dni', { dni })
+                .andWhere('user.isEmailVerified = :value', { value: true })
                 .andWhere('user.deleteDate IS NULL')
                 .andWhere('user.userId != :id', { id })
                 .getOne(),
@@ -82,11 +86,18 @@ export class UserService implements IUserRepository {
         };
     }
 
-    async createUser(dto: CreateUserDto, role: number): Promise<Users> {
+    async createUser(dto: CreateUserDto, role1: number): Promise<Users> {
+        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+        if (role1 === 3)
+            this.emailService.sendVerificationEmail(dto.email, verificationCode)
+
         const user = this.userRepository.create({
             email: dto.email,
             password: dto.password,
-            role: { roleId: role },
+            isEmailVerified: role1 !== 3,
+            role: { roleId: role1 },
+            verificationCode,
+            verificationCodeExpires: new Date(Date.now() + 3600000),
         });
 
         return await this.userRepository.save(user);
@@ -118,5 +129,25 @@ export class UserService implements IUserRepository {
         }
 
         return user;
+    }
+
+    async verifyEmail(email: string, code: string): Promise<void> {
+        const user = await this.userRepository.findOne({
+            where: { email, verificationCode: code },
+        });
+
+        if (!user) {
+            throw new NotFoundException('El código de verificación es incorrecto');
+        }
+
+        if (user.verificationCodeExpires < new Date()) {
+            throw new NotFoundException('El código de verificación ha expirado');
+        }
+
+        user.isEmailVerified = true;
+        user.verificationCode = null;
+        user.verificationCodeExpires = null;
+
+        await this.saveUser(user);
     }
 }
