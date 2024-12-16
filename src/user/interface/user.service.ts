@@ -62,11 +62,17 @@ export class UserService implements IUserRepository {
                 .getOne(),
 
             this.clientRepository.createQueryBuilder('client')
+                .leftJoin('client.user', 'user')
                 .where('client.dni = :dni', { dni })
+                .andWhere('user.deleteDate IS NULL')
+                .andWhere('user.userId != :id', { id })
                 .getOne(),
 
             this.employeeRepository.createQueryBuilder('employee')
+                .leftJoin('employee.user', 'user')
                 .where('employee.dni = :dni', { dni })
+                .andWhere('user.deleteDate IS NULL')
+                .andWhere('user.userId != :id', { id })
                 .getOne(),
         ]);
 
