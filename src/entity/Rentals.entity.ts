@@ -4,10 +4,12 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Employees } from "./Employees.entity";
 import { Reservations } from "./Reservations.entity";
+import { Returns } from "./Returns.entity";
 
 // @Index("rentals_pkey", ["rentalId"], { unique: true })
 @Entity("rentals", { schema: "public" })
@@ -46,4 +48,7 @@ export class Rentals {
     { name: "reservation_id", referencedColumnName: "reservationId" },
   ])
   reservation: Reservations;
+
+  @OneToMany(() => Returns, (returns) => returns.rental)
+  returns: Returns[];
 }
