@@ -21,7 +21,7 @@ export class Clients {
   @Column("integer", { name: "user_id", unique: true })
   userId: number;
 
-  @Column("character", { name: "dni", unique: true, length: 10 })
+  @Column("character", { name: "dni", length: 10 })
   dni: string;
 
   @Column("character varying", { name: "first_name", length: 50 })

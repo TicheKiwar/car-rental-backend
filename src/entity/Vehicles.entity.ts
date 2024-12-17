@@ -65,7 +65,7 @@ export class Vehicles {
   @Column("date", { name: "last_revision_date", nullable: true })
   lastRevisionDate: string | null;
 
-  @Column("date", { name: "registration_date", nullable: true })
+  @Column("date", { name: "registrationdate", nullable: true })
   registrationDate: string | null;
 
   @Column("numeric", {

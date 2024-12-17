@@ -28,7 +28,7 @@ import { join } from 'path';  // Para manejar las rutas
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
       ssl: process.env.SSL === 'false',
     }),
     ServeStaticModule.forRoot({
@@ -45,4 +45,4 @@ import { join } from 'path';  // Para manejar las rutas
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

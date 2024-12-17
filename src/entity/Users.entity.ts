@@ -21,7 +21,7 @@ export class Users {
   @PrimaryGeneratedColumn({ type: "integer", name: "user_id" })
   userId: number;
 
-  @Column("character varying", { name: "email", unique: true, length: 75 })
+  @Column("character varying", { name: "email", length: 75 })
   email: string;
 
   @Column("text", { name: "password" })
@@ -38,6 +38,15 @@ export class Users {
 
   @Column({ type: 'timestamp', nullable: true })
   passwordResetExpires: Date;
+
+  @Column({ nullable: true })
+  verificationCode: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  verificationCodeExpires: Date;
+
+  @Column({ default: false })
+  isEmailVerified: boolean;
 
   @OneToOne(() => Clients, (clients) => clients.user)
   clients: Clients;
