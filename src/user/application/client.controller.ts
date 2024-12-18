@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put } from "@nestjs/common";
 import { ClientService } from "../interface/client.service";
 import { CreateClientDto } from "../interface/dtos/create-client.dto";
+import { UpdateClientDto } from "../interface/dtos/update-client.dto";
 
 @Controller('clients')
 export class ClientController {
@@ -19,5 +20,18 @@ export class ClientController {
     @Get()
     async getAllClients() {
         return this.clientService.getAllClients();
+    }
+
+    @Patch(':id')
+    async updateClient(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() dto: UpdateClientDto,
+    ) {
+        return await this.clientService.updateClient(id, dto);
+    }
+
+    @Delete(':id')
+    async deleteClient(@Param('id', ParseIntPipe) id: number) {
+        return await this.clientService.deleteClient(id);
     }
 }

@@ -36,4 +36,14 @@ export class MailerService {
             throw error;
         }
     }
+
+    async sendVerificationEmail(email: string, code: string) {
+        const mailOptions = {
+            from: '"Soporte de AutoPick" <alexsanty10lm@gmail.com>',
+            to: email,
+            subject: 'Verificación de correo electrónico',
+            text: `Tu código de verificación es: ${code}`,
+        };
+        await this.transporter.sendMail(mailOptions);
+    }
 }
