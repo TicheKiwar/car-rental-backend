@@ -47,4 +47,4 @@ import { ReturnsModule } from './Return/return.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

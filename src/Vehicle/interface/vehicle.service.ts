@@ -46,10 +46,10 @@ export class VehiclesService implements IVehiclesRepository {
 
     const vehicle = this.vehiclesRepository.create({
       ...createVehicleDto,
+      status: "Disponible",
       model,
     });
 
-    // Guardar el vehículo en la base de datos
     return await this.vehiclesRepository.save(vehicle);
   }
 

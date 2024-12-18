@@ -23,4 +23,14 @@ export class UserController {
         const validationResult = await this.userService.isEmailOrDniTaken(email, dni, id);
         return validationResult;
     }
+
+    @Post('verify-email')
+    @HttpCode(HttpStatus.OK)
+    async verifyEmail(
+        @Body() body: { email: string; code: string },
+    ) {
+        const { email, code } = body;
+        await this.userService.verifyEmail(email, code);
+        return { message: `El correo electrónico ${email} ha sido verificado exitosamente.` };
+    }
 }
