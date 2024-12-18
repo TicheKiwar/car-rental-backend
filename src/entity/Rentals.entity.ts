@@ -25,6 +25,23 @@ export class Rentals {
     nullable: true,
     length: 20,
   })
+
+  @Column("numeric", { 
+    name: "inital_fuel_level", 
+    nullable: true, 
+    precision: 5, 
+    scale: 2 
+  })
+  initialFuelLevel: number | null;
+
+  @Column("numeric", { 
+    name: "final_fuel_level", 
+    nullable: true, 
+    precision: 5, 
+    scale: 2 
+  })
+  finalFuelLevel: number | null;
+
   finalStatus: string | null;
 
   @Column("integer", { name: "initial_mileage", nullable: true })

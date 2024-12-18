@@ -23,6 +23,7 @@ export class ReturnsService implements IReturnsRepository {
     const query = `
       SELECT 
         r.rental_id,
+        r.rental_status,
         res.reservation_id,
         v.vehicle_id,
         res.reservation_date,

@@ -26,27 +26,6 @@ import {
     returnTime: string;
   
     @Column("numeric", { 
-      name: "fuel_level", 
-      nullable: true, 
-      precision: 5, 
-      scale: 2 
-    })
-    fuelLevel: number | null;
-  
- 
-  
-    @Column("integer", { name: "delay_days", nullable: true })
-    delayDays: number | null;
-  
-    @Column("numeric", { 
-      name: "delay_cost", 
-      nullable: true, 
-      precision: 10, 
-      scale: 2 
-    })
-    delayCost: number | null;
-  
-    @Column("numeric", { 
       name: "cost_per_damages", 
       nullable: true, 
       precision: 10, 
