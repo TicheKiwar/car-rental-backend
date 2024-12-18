@@ -53,8 +53,6 @@ export class VehiclesService implements IVehiclesRepository {
     return await this.vehiclesRepository.save(vehicle);
   }
 
-
-
   async update(id: number, updateVehicleDto: UpdateVehicleDto) {
     const vehicle = await this.vehiclesRepository.findOne({
       where: { vehicleId: id, deletedAt: null },

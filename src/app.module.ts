@@ -14,6 +14,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';  // Importa ServeStati
 import { join } from 'path';  // Para manejar las rutas
 import { catalogModule } from './Catalog/Catalog.module';
 import { ReservationsModule } from './reservations/reservations.module';
+import { ReturnsModule } from './Return/return.module';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { ReservationsModule } from './reservations/reservations.module';
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
       ssl: process.env.SSL === 'false',
     }),
     ServeStaticModule.forRoot({
@@ -43,6 +44,7 @@ import { ReservationsModule } from './reservations/reservations.module';
     ModelModule,
     VehiclesModule,
     ReservationsModule,
+    ReturnsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
