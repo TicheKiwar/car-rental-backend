@@ -10,10 +10,6 @@ export class UpdateVehicleDto {
   type?: string;
 
   @IsOptional()
-  @IsString()
-  status?: string;
-
-  @IsOptional()
   @IsInt()
   modelId?: number;
 

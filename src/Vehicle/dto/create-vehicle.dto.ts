@@ -9,10 +9,6 @@ export class CreateVehicleDto {
   @IsNotEmpty()
   type: string;
 
-  @IsString()
-  @IsNotEmpty()
-  status: string;
-
   @IsInt()
   @IsNotEmpty()
   modelId: number;
@@ -46,7 +42,7 @@ export class CreateVehicleDto {
 
   @IsDecimal()
   costDayDelay?: string;
-  
+
   @IsOptional()
   deletedAt?: Date;
 
