@@ -29,7 +29,7 @@ import { ReturnsModule } from './Return/return.module';
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
       ssl: process.env.SSL === 'false',
     }),
     ServeStaticModule.forRoot({
