@@ -53,9 +53,6 @@ export class Employees {
   @OneToMany(() => Rentals, (rentals) => rentals.employee)
   rentals: Rentals[];
 
-  @OneToMany(() => Reservations, (reservations) => reservations.employee)
-  reservations: Reservations[];
-
   @OneToMany(() => Returns, (returns) => returns.employee)
   returns: Returns[];
 }

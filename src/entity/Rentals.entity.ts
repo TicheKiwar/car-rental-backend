@@ -39,6 +39,9 @@ export class Rentals {
   @Column("numeric", { name: "total_cost", precision: 10, scale: 2 })
   totalCost: string;
 
+  @Column("character varying", { name: "rental_status", length: 20 })
+  status: string;
+
   @ManyToOne(() => Employees, (employees) => employees.rentals)
   @JoinColumn([{ name: "employee_id", referencedColumnName: "employeeId" }])
   employee: Employees;

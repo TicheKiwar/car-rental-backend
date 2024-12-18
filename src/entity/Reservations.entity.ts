@@ -24,10 +24,7 @@ export class Reservations {
   @Column("integer", { name: "reservation_days", nullable: true })
   reservationDays: number | null;
 
-  @Column("character varying", { name: "status", length: 20 })
-  status: string;
-
-  @Column("numeric", { name: "total_cost", precision: 10, scale: 2 })
+  @Column("numeric", { name: "subtotal_cost", precision: 10, scale: 2 })
   totalCost: string;
 
   @OneToMany(() => Rentals, (rentals) => rentals.reservation)
@@ -37,9 +34,6 @@ export class Reservations {
   @JoinColumn([{ name: "client_id", referencedColumnName: "clientId" }])
   client: Clients;
 
-  @ManyToOne(() => Employees, (employees) => employees.reservations)
-  @JoinColumn([{ name: "employee_id", referencedColumnName: "employeeId" }])
-  employee: Employees;
 
   @ManyToOne(() => Vehicles, (vehicles) => vehicles.reservations)
   @JoinColumn([{ name: "vehicle_id", referencedColumnName: "vehicleId" }])

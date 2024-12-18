@@ -33,15 +33,7 @@ import {
     })
     fuelLevel: number | null;
   
-    @Column("character varying", { 
-      name: "vehicle_condition", 
-      length: 50, 
-      nullable: false 
-    })
-    vehicleCondition: string;
-  
-    @Column("text", { name: "additional_damages", nullable: true })
-    additionalDamages: string | null;
+ 
   
     @Column("integer", { name: "delay_days", nullable: true })
     delayDays: number | null;
@@ -54,6 +46,22 @@ import {
     })
     delayCost: number | null;
   
+    @Column("numeric", { 
+      name: "cost_per_damages", 
+      nullable: true, 
+      precision: 10, 
+      scale: 2 
+    })
+    damageCost: number | null;
+
+    @Column("numeric", { 
+      name: "aditional_charges", 
+      nullable: true, 
+      precision: 10, 
+      scale: 2 
+    })
+    aditionalCharges: number | null;
+
     @Column("text", { name: "observations", nullable: true })
     observations: string | null;
   
