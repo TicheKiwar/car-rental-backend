@@ -13,6 +13,7 @@ import { AuthModule } from './Auth/auth.module';
 import { ServeStaticModule } from '@nestjs/serve-static';  // Importa ServeStaticModule
 import { join } from 'path';  // Para manejar las rutas
 import { catalogModule } from './Catalog/Catalog.module';
+import { ReturnsModule } from './Return/return.module';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { catalogModule } from './Catalog/Catalog.module';
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
       ssl: process.env.SSL === 'false',
     }),
     ServeStaticModule.forRoot({
@@ -41,6 +42,7 @@ import { catalogModule } from './Catalog/Catalog.module';
     BrandModule,
     ModelModule,
     VehiclesModule,
+    ReturnsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
