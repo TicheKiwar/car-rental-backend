@@ -85,6 +85,20 @@ export class Vehicles {
   @Column("character varying", { name: "image", nullable: true, length: 255 })
   image: string | null;
 
+  @Column("character varying", {
+    name: "motor_number",
+    nullable: true,
+    length: 20,
+  })
+  motorNumber: string | null;
+
+  @Column("char", {
+    name: "chasis_number",
+    nullable: true,
+    length: 17,
+  })
+  chasisNumber: string | null;
+
   @OneToMany(() => Reservations, (reservations) => reservations.vehicle)
   reservations: Reservations[];
 
