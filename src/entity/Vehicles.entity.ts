@@ -80,7 +80,7 @@ export class Vehicles {
     name: "delete_date",
     nullable: true,
   })
-  deletedAt: Date | null;
+  deleteDate: Date | null;
 
 
   @Column("character varying", { name: "image", nullable: true, length: 255 })
