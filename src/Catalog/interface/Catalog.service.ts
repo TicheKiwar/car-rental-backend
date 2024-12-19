@@ -45,7 +45,7 @@ export class CatalogService implements ICatalogRepository {
     const vehicle = await this.catalogRepository.findOne({
       where: {
         vehicleId: idVehicle,
-        deletedAt: null,
+        deleteDate: null,
       },
       relations: ["model", "model.brand"]
     });
