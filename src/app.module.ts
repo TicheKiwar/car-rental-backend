@@ -46,7 +46,7 @@ import {  RentalModule } from './rental/rental.module';
     VehiclesModule,
     ReservationsModule,
     ReturnsModule,
-    RentalModule,
+    //RentalModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,26 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import {  Injectable } from '@nestjs/common';
 import { CreateRentalDto } from '../domain/dto/create-rental.dto';
-import { UpdateRentalDto } from '../domain/dto/update-rental.dto';
+import { ReservationRepository } from '../domain/rental.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Rentals } from 'src/entity/Rentals.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
-export class RentalService {
-  create(createRentalDto: CreateRentalDto) {
-    return 'This action adds a new rental2';
-  }
+export class RentalService implements ReservationRepository{
 
-  findAll() {
-    return `This action returns all rental2`;
-  }
+  constructor(
+    @InjectRepository(Rentals)
+    private readonly rentalRepository: Repository<Rentals>,
+  ) {}
 
-  findOne(id: number) {
-    return `This action returns a #${id} rental2`;
+  getAll() {
+    return this.rentalRepository.find({relations: ['vehicle', 'employee', 'reservation']});
   }
-
-  update(id: number, updateRentalDto: UpdateRentalDto) {
-    return `This action updates a #${id} rental2`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} rental2`;
+  createRental(employeeID: number, createRentalDto: CreateRentalDto): Promise<boolean> {
+    throw new Error('Method not implemented.');
   }
 }
