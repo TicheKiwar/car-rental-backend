@@ -27,7 +27,7 @@ export class ReturnsService implements IReturnsRepository {
       SELECT 
         r.rental_id,
         r.rental_status,
-        r.inital_fuel_level,
+        r.initial_fuel_level,
         res.reservation_id,
         res.reservation_date,
         res.reservation_days,
@@ -86,20 +86,20 @@ export class ReturnsService implements IReturnsRepository {
     const rental = await this.rentalsRepository.findOne({
       where: { rentalId },
     });
-  
+
     if (!rental) {
       throw new Error('Rental not found');
     }
-  
+
     // **2. Buscar la entidad `employee`**
     const employee = await this.employeesRepository.findOne({
       where: { employeeId },
     });
-  
+
     if (!employee) {
       throw new Error('Employee not found');
     }
-  
+
     // **3. Insertar en la tabla `returns`**
     const returnRecord = this.returnsRepository.create({
       ...returnFields,
@@ -107,29 +107,29 @@ export class ReturnsService implements IReturnsRepository {
       employee,
     });
     await this.returnsRepository.save(returnRecord);
-  
+
     // **4. Actualizar la tabla `rental`**
     rental.finalMileage = createReturnDto.finalMileage ?? rental.finalMileage;
     rental.totalDays = createReturnDto.totalDays ?? rental.totalDays;
     rental.status = createReturnDto.rentalStatus;
     rental.finalFuelLevel = createReturnDto.finalFuelLevel ?? rental.finalFuelLevel;
     rental.finalStatus = createReturnDto.finalStatus ?? rental.finalStatus;
-    
+
     await this.rentalsRepository.save(rental);
-  
+
     // **5. Actualizar el estado del vehículo**
     const vehicle = await this.vehiclesRepository.findOne({
       where: { vehicleId },
     });
-  
+
     if (!vehicle) {
       throw new Error('Vehicle not found');
     }
-  
+
     vehicle.status = vehicleStatus;
     await this.vehiclesRepository.save(vehicle);
-  
+
     return { message: 'Return processed successfully' };
   }
-  
+
 }

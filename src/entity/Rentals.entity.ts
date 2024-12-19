@@ -28,7 +28,7 @@ export class Rentals {
   finalStatus: string | null;
 
   @Column("numeric", {
-    name: "inital_fuel_level",
+    name: "initial_fuel_level",
     nullable: true,
     precision: 5,
     scale: 2
