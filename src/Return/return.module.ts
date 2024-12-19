@@ -4,10 +4,11 @@ import { Returns } from '../entity/Returns.entity';
 import { Rentals } from '../entity/Rentals.entity';
 import { Employees } from '../entity/Employees.entity';
 import { ReturnsController } from './aplication/return.controller';
+import { Vehicles } from '../entity/Vehicles.entity';
 import { ReturnsService } from './interface/return.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Returns, Rentals, Employees])],
+  imports: [TypeOrmModule.forFeature([Returns, Rentals, Employees, Vehicles])],
   controllers: [ReturnsController],
   providers: [ReturnsService],
 })
