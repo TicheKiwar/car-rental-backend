@@ -6,6 +6,7 @@ import { Rentals } from '../../entity/Rentals.entity';
 import { Employees } from '../../entity/Employees.entity';
 import { IReturnsRepository } from '../domain/return.repository';
 import { CreateReturnDto } from '../dto/create-return.dto';
+import { Vehicles } from '../../entity/Vehicles.entity';
 
 @Injectable()
 export class ReturnsService implements IReturnsRepository {
@@ -16,7 +17,9 @@ export class ReturnsService implements IReturnsRepository {
     private readonly rentalsRepository: Repository<Rentals>,
     @InjectRepository(Employees)
     private readonly employeesRepository: Repository<Employees>,
-  ) {}
+    @InjectRepository(Vehicles)
+    private readonly vehiclesRepository: Repository<Vehicles>,
+  ) { }
 
   async findAll() {
     // Consulta SQL personalizada
@@ -24,26 +27,30 @@ export class ReturnsService implements IReturnsRepository {
       SELECT 
         r.rental_id,
         r.rental_status,
+        r.inital_fuel_level,
         res.reservation_id,
-        v.vehicle_id,
         res.reservation_date,
         res.reservation_days,
+        v.vehicle_id,
         c.client_id,
         c.dni AS client_dni,
         c.first_name AS client_first_name,
         c.last_name AS client_last_name,
         c.phone AS client_phone,
         c.address AS client_address,
-        e.employee_id,
+        e.employee_id AS employe_rental_id,
         e.dni AS employee_dni,
         e.first_name AS employee_first_name,
         e.last_name AS employee_last_name,
         e.phone AS employee_phone,
         v.model_id,
         v.license_plate,
+        v.daily_rate,
         v.color,
         v.status,
         v.image,
+        v.cost_day_delay,
+        v.mileage,
         m.model_name,
         b.brand_name
       FROM 
@@ -59,10 +66,9 @@ export class ReturnsService implements IReturnsRepository {
       JOIN 
         model m ON v.model_id = m.model_id
       JOIN 
-        brand b ON m.brand_id = b.brand_id
-       WHERE v.status='No Disponible';
+        brand b ON m.brand_id = b.brand_id;
     `;
-    
+
     // Ejecutar la consulta SQL utilizando el repositorio de Rentals
     return await this.rentalsRepository.query(query);
   }
@@ -75,28 +81,55 @@ export class ReturnsService implements IReturnsRepository {
   }
 
   async create(createReturnDto: CreateReturnDto) {
-    const rental = await this.rentalsRepository.findOne({
-      where: { rentalId: createReturnDto.rentalId },
-    });
+    const { rentalId, employeeId, vehicleId, vehicleStatus, ...returnFields } = createReturnDto;
 
+    const rental = await this.rentalsRepository.findOne({
+      where: { rentalId },
+    });
+  
     if (!rental) {
       throw new Error('Rental not found');
     }
-
+  
+    // **2. Buscar la entidad `employee`**
     const employee = await this.employeesRepository.findOne({
-      where: { employeeId: createReturnDto.employeeId },
+      where: { employeeId },
     });
-
+  
     if (!employee) {
       throw new Error('Employee not found');
     }
-
+  
+    // **3. Insertar en la tabla `returns`**
     const returnRecord = this.returnsRepository.create({
-      ...createReturnDto,
+      ...returnFields,
       rental,
       employee,
     });
-
-    return await this.returnsRepository.save(returnRecord);
+    await this.returnsRepository.save(returnRecord);
+  
+    // **4. Actualizar la tabla `rental`**
+    rental.finalMileage = createReturnDto.finalMileage ?? rental.finalMileage;
+    rental.totalDays = createReturnDto.totalDays ?? rental.totalDays;
+    rental.status = createReturnDto.rentalStatus;
+    rental.finalFuelLevel = createReturnDto.finalFuelLevel ?? rental.finalFuelLevel;
+    rental.finalStatus = createReturnDto.finalStatus ?? rental.finalStatus;
+    
+    await this.rentalsRepository.save(rental);
+  
+    // **5. Actualizar el estado del vehículo**
+    const vehicle = await this.vehiclesRepository.findOne({
+      where: { vehicleId },
+    });
+  
+    if (!vehicle) {
+      throw new Error('Vehicle not found');
+    }
+  
+    vehicle.status = vehicleStatus;
+    await this.vehiclesRepository.save(vehicle);
+  
+    return { message: 'Return processed successfully' };
   }
+  
 }
