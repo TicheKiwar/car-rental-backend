@@ -10,5 +10,6 @@ import { UploadController } from './application/upload.controller';
   imports: [TypeOrmModule.forFeature([Vehicles, Model])],
   controllers: [VehiclesController, UploadController],
   providers: [VehiclesService],
+  exports: [VehiclesService],
 })
 export class VehiclesModule {}

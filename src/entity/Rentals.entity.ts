@@ -25,7 +25,8 @@ export class Rentals {
     nullable: true,
     length: 20,
   })
-
+  finalStatus: string | null;
+  
   @Column("numeric", { 
     name: "inital_fuel_level", 
     nullable: true, 
@@ -42,7 +43,7 @@ export class Rentals {
   })
   finalFuelLevel: number | null;
 
-  finalStatus: string | null;
+
 
   @Column("integer", { name: "initial_mileage", nullable: true })
   initialMileage: number | null;

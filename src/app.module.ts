@@ -13,6 +13,7 @@ import { AuthModule } from './Auth/auth.module';
 import { ServeStaticModule } from '@nestjs/serve-static';  // Importa ServeStaticModule
 import { join } from 'path';  // Para manejar las rutas
 import { catalogModule } from './Catalog/Catalog.module';
+import { ReservationsModule } from './reservations/reservations.module';
 import { ReturnsModule } from './Return/return.module';
 
 @Module({
@@ -42,6 +43,7 @@ import { ReturnsModule } from './Return/return.module';
     BrandModule,
     ModelModule,
     VehiclesModule,
+    ReservationsModule,
     ReturnsModule,
   ],
   controllers: [AppController],

@@ -56,5 +56,6 @@ export class VehiclesController {
     const { plate } = body;
     const validationResult = await this.vehiclesService.findOneByLicensePlate(plate, id);
     return validationResult;
+
   }
 }
