@@ -38,7 +38,7 @@ export class CatalogService implements ICatalogRepository {
         .getMany();
 
     return vehicles;
-}
+  }
 
 
   async findByVehicle(idVehicle: number) {

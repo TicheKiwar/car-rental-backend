@@ -27,7 +27,7 @@ export class ReturnsService implements IReturnsRepository {
       SELECT 
         r.rental_id,
         r.rental_status,
-        r.inital_fuel_level,
+        r.initial_fuel_level,
         res.reservation_id,
         res.reservation_date,
         res.reservation_days,
