@@ -15,6 +15,7 @@ import { join } from 'path';  // Para manejar las rutas
 import { catalogModule } from './Catalog/Catalog.module';
 import { ReservationsModule } from './reservations/reservations.module';
 import { ReturnsModule } from './Return/return.module';
+import {  RentalModule } from './rental/rental.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { ReturnsModule } from './Return/return.module';
     VehiclesModule,
     ReservationsModule,
     ReturnsModule,
+    RentalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
