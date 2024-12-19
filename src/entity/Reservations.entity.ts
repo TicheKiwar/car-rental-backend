@@ -9,7 +9,6 @@ import {
 } from "typeorm";
 import { Rentals } from "./Rentals.entity";
 import { Clients } from "./Clients.entity";
-import { Employees } from "./Employees.entity";
 import { Vehicles } from "./Vehicles.entity";
 
 // @Index("reservations_pkey", ["reservationId"], { unique: true })

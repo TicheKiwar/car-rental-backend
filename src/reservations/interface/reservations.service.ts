@@ -22,7 +22,7 @@ export class ReservationsService implements ReservationRepository {
 
     return await this.reservationRepository.find({
       where: { client: { userId: userID } },
-      relations: ['client', 'vehicle', 'employee', 'rentals'],
+      relations: ['client', 'vehicle', 'rentals'],
     });
   }
 
@@ -32,10 +32,8 @@ export class ReservationsService implements ReservationRepository {
       const newReservation = this.reservationRepository.create({
         reservationDate: createReservationDto.reservationDate,
         reservationDays: createReservationDto.reservationDays,
-        status: createReservationDto.status,
         totalCost: createReservationDto.totalCost,
         client: { clientId: createReservationDto.clientId }, // Relación con cliente
-        employee: { employeeId: createReservationDto.employeeId }, // Relación con empleado
         vehicle: { vehicleId: createReservationDto.vehicleId }, // Relación con vehículo
       });
 
@@ -73,16 +71,13 @@ export class ReservationsService implements ReservationRepository {
       // Actualizar campos
       existingReservation.reservationDate = updateReservationDto.reservationDate;
       existingReservation.reservationDays = updateReservationDto.reservationDays;
-      existingReservation.status = updateReservationDto.status;
       existingReservation.totalCost = updateReservationDto.totalCost;
 
       // Relaciones opcionales
       if (updateReservationDto.clientId) {
         existingReservation.client = { clientId: updateReservationDto.clientId } as any;
       }
-      if (updateReservationDto.employeeId) {
-        existingReservation.employee = { employeeId: updateReservationDto.employeeId } as any;
-      }
+
       if (updateReservationDto.vehicleId) {
         existingReservation.vehicle = { vehicleId: updateReservationDto.vehicleId } as any;
       }

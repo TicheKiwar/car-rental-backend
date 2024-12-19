@@ -23,8 +23,7 @@ export class ReservationsController {
   }
 
   @Get("Client")
-  @Role(TRole.Client)
-  @UseGuards(JwtAuthGuard,RoleGuard)
+  @UseGuards(JwtAuthGuard)
   async getAllByUser(@User() user: Users ) {
     return this.reservationsService.getAllByUser(user.userId)
   }
