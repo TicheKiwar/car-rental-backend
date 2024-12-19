@@ -32,7 +32,7 @@ export class CatalogService implements ICatalogRepository {
     const vehicles = await queryBuilder
         .leftJoinAndSelect("vehicle.model", "model") // Relacionar el modelo
         .leftJoinAndSelect("model.brand", "brand")  // Relacionar la marca del modelo
-        .where("vehicle.deletedAt IS NULL")        // Filtrar vehículos no eliminados
+        .where("vehicle.delete_date IS NULL")        // Filtrar vehículos no eliminados
         .andWhere("vehicle.status = :status", { status: "Disponible" }) // Filtrar vehículos disponibles
         .orderBy("vehicle.vehicleId")
         .getMany();

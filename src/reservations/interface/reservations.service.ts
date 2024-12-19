@@ -31,27 +31,27 @@ export class ReservationsService implements ReservationRepository {
     const reservations = await this.reservationRepository
       .createQueryBuilder('reservation')
       .select([
-        'reservation.reservationId',
-        'reservation.reservationDate',
-        'reservation.reservationDays',
-        'reservation.totalCost',
-        'vehicle.vehicleId',
+        'reservation.reservation_id',
+        'reservation.reservation_date',
+        'reservation.reservation_days',
+        'reservation.subtotal_cost',
+        'vehicle.vehicle_id',
         'vehicle.type',
         'vehicle.image',
-        'vehicle.dailyRate',
-        'rental.rentalId',
-        'rental.status',
-        'rental.totalDays',
-        'rental.totalCost',
-        'model.modelName',
-        'brand.brandName', // Asegúrate de que estos campos existan en la entidad model
+        'vehicle.daily_rate',
+        'rental.rental_id',
+        'rental.renta_status',
+        'rental.total_days',
+        'rental.total_cost',
+        'model.model_name',
+        'brand.brand_name', // Asegúrate de que estos campos existan en la entidad model
       ])
       .leftJoin('reservation.client', 'client')  // Relaciona con la entidad "client"
       .leftJoin('reservation.vehicle', 'vehicle')  // Relaciona con la entidad "vehicle"
       .leftJoin('vehicle.model', 'model')  // Relaciona con la entidad "model" a través de vehicle
       .leftJoin('model.brand', 'brand')  // Relaciona con la entidad "model" a través de vehicle
       .leftJoin('reservation.rentals', 'rental')  // Relaciona con la entidad "rentals"
-      .where('client.userId = :userId', { userId: userID })  // Filtra por el userId
+      .where('client.user_id = :user_id', { userId: userID })  // Filtra por el userId
       .getMany();
 
     return reservations;
