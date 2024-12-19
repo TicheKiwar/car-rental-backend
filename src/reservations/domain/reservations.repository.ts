@@ -4,7 +4,7 @@ import { UpdateReservationDto } from "./dto/update-reservation.dto";
 export interface ReservationRepository{
     getAll()
     getAllByUser(userID:number)
-    createReservation(createreservationDto:CreateReservationDto):Promise<boolean>
+    createReservation(userID:number,createreservationDto:CreateReservationDto):Promise<boolean>
     deleteReservation(reservationId:number):Promise<boolean>
     editReservation(reservationId:number,updateReservationDto:UpdateReservationDto):Promise<boolean>
 }

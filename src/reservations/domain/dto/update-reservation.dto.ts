@@ -1,9 +1,14 @@
+import {  IsNumber, IsOptional, IsString } from "class-validator";
+
 export class UpdateReservationDto {
-    reservationId: number;
+    @IsString()
+    @IsOptional()
     reservationDate: string;
+    @IsOptional()
+    @IsNumber()
     reservationDays?: number;
+    @IsString()
+    @IsOptional()
     totalCost?: string;
-    clientId?: number;
-    vehicleId?: number;
   }
   

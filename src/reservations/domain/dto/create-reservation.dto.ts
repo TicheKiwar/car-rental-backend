@@ -1,8 +1,17 @@
+import { IsInt, IsNotEmpty, IsString } from "class-validator";
+
 export class CreateReservationDto {
-    reservationDate: string;
-    reservationDays: number;
-    totalCost: string;
-    clientId: number;
-    vehicleId: number;
-  }
-  
+  @IsString()
+  @IsNotEmpty()
+  reservationDate: string;
+  @IsInt()
+  @IsNotEmpty()
+  reservationDays: number;
+
+  @IsString()
+  @IsNotEmpty()
+  totalCost: string;
+  @IsInt()
+  @IsNotEmpty()
+  vehicleId: number;
+}

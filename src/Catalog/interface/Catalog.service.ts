@@ -28,28 +28,17 @@ export class CatalogService implements ICatalogRepository {
   }
 
   async getCatalog() {
-    const catalog = await this.catalogRepository
-      .createQueryBuilder('catalog')
-      .select([
-        'catalog.vehicleId',
-        'catalog.licensePlate',
-        'catalog.type',
-        'catalog.status',
-        'catalog.color',
-        'catalog.doorCount',
-        'catalog.image',
-        'model.modelId',
-        'model.modelName',
-        'brand.brandId',
-        'brand.brandName',
-      ])
-      .leftJoin('catalog.model', 'model') // Relaciona con la entidad "model"
-      .leftJoin('model.brand', 'brand') // Relaciona con la entidad "brand" desde "model"
-      .where('catalog.deletedAt IS NULL') // Filtra por registros no eliminados
-      .getMany(); // Ejecuta la consulta y obtiene los resultados
+    const queryBuilder = this.catalogRepository.createQueryBuilder("vehicle");
+    const vehicles = await queryBuilder
+        .leftJoinAndSelect("vehicle.model", "model") // Relacionar el modelo
+        .leftJoinAndSelect("model.brand", "brand")  // Relacionar la marca del modelo
+        .where("vehicle.deletedAt IS NULL")        // Filtrar vehículos no eliminados
+        .andWhere("vehicle.status = :status", { status: "Disponible" }) // Filtrar vehículos disponibles
+        .orderBy("vehicle.vehicleId")
+        .getMany();
 
-    return catalog;
-  }
+    return vehicles;
+}
 
 
   async findByVehicle(idVehicle: number) {

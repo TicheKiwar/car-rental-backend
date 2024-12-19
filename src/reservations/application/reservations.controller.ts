@@ -23,24 +23,36 @@ export class ReservationsController {
   }
 
   @Get("Client")
-  @UseGuards(JwtAuthGuard)
+  @Role(TRole.Client)
+  @UseGuards(JwtAuthGuard,RoleGuard)
   async getAllByUser(@User() user: Users ) {
-    return this.reservationsService.getAllByUser(user.userId)
+    return await this.reservationsService.getAllByUser(user.userId)
   }
 
-  @Post("")
-  async createReservation(@Body()createreservationDto: CreateReservationDto): Promise<boolean> {
-    return this.reservationsService.createReservation(createreservationDto)
+  @Get("Verify/:reservationID")
+  @Role(TRole.Client)
+  @UseGuards(JwtAuthGuard,RoleGuard)
+  async verifyReservation(@Param('reservationID', ParseIntPipe) reservationId: number) {
+    return await this.reservationsService.verifyReservation(reservationId) 
   }
-  @Delete(":id")
-  async deleteReservation( @Param('id', ParseIntPipe) reservationId: number): Promise<boolean> {
-    return this.reservationsService.deleteReservation(reservationId)
+
+  @Post("Client")
+  @Role(TRole.Client)
+  @UseGuards(JwtAuthGuard,RoleGuard)
+  async createReservation(@User() user: Users,@Body()createreservationDto: CreateReservationDto,): Promise<boolean> {
+    return this.reservationsService.createReservation(user.userId,createreservationDto)
   }
-  @Patch(":id")
+
+  @Delete(":reservationID")
+  async deleteReservation( @Param('reservationID', ParseIntPipe) reservationId: number): Promise<boolean> {
+    return await this.reservationsService.deleteReservation(reservationId)
+  }
+
+  @Patch(":reservationID")
   async editReservation(
-   @Param('id', ParseIntPipe) reservationId: number,
+   @Param('reservationID', ParseIntPipe) reservationId: number,
    @Body() updateReservationDto: UpdateReservationDto
   ): Promise<boolean> {
-    return this.editReservation(reservationId,updateReservationDto)
+    return this.reservationsService.editReservation(reservationId,updateReservationDto)
   }
 }
