@@ -37,12 +37,12 @@ export class VehiclesService implements IVehiclesRepository {
 
   async findOneByLicensePlate(plate: string, id: number) {
     const licensePlateUsed = await this.vehiclesRepository.createQueryBuilder('vehicle')
-      .where('vehicle.motorNumber = :plate', { plate })
+      .where('vehicle.licensePlate = :plate', { plate })
       .andWhere('vehicle.deleteDate IS NULL')
       .andWhere('vehicle.vehicleId != :id', { id })
       .getOne()
 
-    return !!licensePlateUsed
+    return { plateExists: !!licensePlateUsed }
   }
 
   async create(createVehicleDto: CreateVehicleDto) {
