@@ -17,31 +17,29 @@ export class Rentals {
   @PrimaryGeneratedColumn({ type: "integer", name: "rental_id" })
   rentalId: number;
 
-  @Column("character varying", { name: "initial_status", length: 20,nullable: true })
+  @Column("character varying", { name: "initial_status", length: 20, nullable: true })
   initialStatus: string;
-
-  @Column("character varying", { name: "final_status", length: 20, nullable: true })
-  finalStatus: string;
 
   @Column("character varying", {
     name: "final_status",
     nullable: true,
     length: 20,
   })
+  finalStatus: string | null;
 
-  @Column("numeric", { 
-    name: "inital_fuel_level", 
-    nullable: true, 
-    precision: 5, 
-    scale: 2 
+  @Column("numeric", {
+    name: "inital_fuel_level",
+    nullable: true,
+    precision: 5,
+    scale: 2
   })
   initialFuelLevel: number | null;
 
-  @Column("numeric", { 
-    name: "final_fuel_level", 
-    nullable: true, 
-    precision: 5, 
-    scale: 2 
+  @Column("numeric", {
+    name: "final_fuel_level",
+    nullable: true,
+    precision: 5,
+    scale: 2
   })
   finalFuelLevel: number | null;
 
@@ -54,7 +52,7 @@ export class Rentals {
   @Column("integer", { name: "total_days", nullable: true })
   totalDays: number | null;
 
-  @Column("numeric", { name: "total_cost", precision: 10, scale: 2 , nullable: true})
+  @Column("numeric", { name: "total_cost", precision: 10, scale: 2, nullable: true })
   totalCost: string;
 
   @Column("character varying", { name: "rental_status", length: 20 })

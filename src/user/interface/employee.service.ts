@@ -5,8 +5,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateEmployeeDto } from "./dtos/create-employee";
 import { UserService } from "./user.service";
-import { PositionService } from "src/position/interface/position.service";
 import { UpdateEmployeeDto } from "./dtos/update-employee.dto";
+import { PositionService } from "src/Position/interface/position.service";
 
 @Injectable()
 export class EmployeeService implements IEmployeeRepository {

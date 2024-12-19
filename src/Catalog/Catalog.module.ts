@@ -14,5 +14,6 @@ import { Brand } from 'src/entity/Brand.entity';
   ],
   controllers: [CatalogController],
   providers: [CatalogService],
+  exports:[CatalogService]
 })
 export class catalogModule {}
