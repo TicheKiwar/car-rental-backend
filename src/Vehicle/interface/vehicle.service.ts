@@ -21,7 +21,7 @@ export class VehiclesService implements IVehiclesRepository {
     const vehicles = await queryBuilder
       .leftJoinAndSelect("vehicle.model", "model") // Relacionar el modelo
       .leftJoinAndSelect("model.brand", "brand")  // Relacionar la marca del modelo
-      .where("vehicle.deletedAt IS NULL")        // Filtrar vehículos no eliminados
+      .where("vehicle.deleteDate IS NULL")        // Filtrar vehículos no eliminados
       .orderBy("vehicle.vehicleId")
       .getMany();
 
@@ -30,9 +30,19 @@ export class VehiclesService implements IVehiclesRepository {
 
   async findOne(id: number) {
     return await this.vehiclesRepository.findOne({
-      where: { vehicleId: id, deletedAt: null },
+      where: { vehicleId: id, deleteDate: null },
       relations: ['model', 'model.brand'],
     });
+  }
+
+  async findOneByLicensePlate(plate: string, id: number) {
+    const licensePlateUsed = await this.vehiclesRepository.createQueryBuilder('vehicle')
+      .where('vehicle.motorNumber = :plate', { plate })
+      .andWhere('vehicle.deleteDate IS NULL')
+      .andWhere('vehicle.vehicleId != :id', { id })
+      .getOne()
+
+    return !!licensePlateUsed
   }
 
   async create(createVehicleDto: CreateVehicleDto) {
@@ -55,7 +65,7 @@ export class VehiclesService implements IVehiclesRepository {
 
   async update(id: number, updateVehicleDto: UpdateVehicleDto) {
     const vehicle = await this.vehiclesRepository.findOne({
-      where: { vehicleId: id, deletedAt: null },
+      where: { vehicleId: id, deleteDate: null },
     });
 
     if (!vehicle) {
@@ -79,14 +89,41 @@ export class VehiclesService implements IVehiclesRepository {
 
   async remove(id: number) {
     const vehicle = await this.vehiclesRepository.findOne({
-      where: { vehicleId: id, deletedAt: null },
+      where: { vehicleId: id, deleteDate: null },
     });
 
     if (!vehicle) {
       throw new Error('Vehicle not found');
     }
 
-    vehicle.deletedAt = new Date();
+    vehicle.deleteDate = new Date();
     return await this.vehiclesRepository.save(vehicle);
+  }
+
+  async isMotorOrChasisInUse(
+    motorNumber: string,
+    chasisNumber: string,
+    id: number,
+  ): Promise<{ motorExists: boolean; chasisExists: boolean }> {
+    const [motorNumberUsed, chasisNumberUsed] = await Promise.all([
+      this.vehiclesRepository.createQueryBuilder('vehicle')
+        .where('vehicle.motorNumber = :motorNumber', { motorNumber })
+        .andWhere('vehicle.deleteDate IS NULL')
+        .andWhere('vehicle.vehicleId != :id', { id })
+        .getOne(),
+
+      this.vehiclesRepository.createQueryBuilder('vehicle')
+        .where('vehicle.chasisNumber = :chasisNumber', { chasisNumber })
+        .andWhere('vehicle.deleteDate IS NULL')
+        .andWhere('vehicle.vehicleId != :id', { id })
+        .getOne(),
+    ]);
+
+    return {
+      motorExists: !!motorNumberUsed,
+      chasisExists: !!chasisNumberUsed,
+    };
+
+
   }
 }
