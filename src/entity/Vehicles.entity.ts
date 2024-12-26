@@ -8,9 +8,9 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Reservations } from "./Reservations.entity";
 import { Model } from "./Model.entity";
 import { VehicleStatus } from "./VehicleStatus.entity";
+import { Rentals } from "./Rentals.entity";
 
 // @Index("vehicles_license_plate_key", ["licensePlate"], { unique: true })
 // @Index("vehicles_pkey", ["vehicleId"], { unique: true })
@@ -101,8 +101,8 @@ export class Vehicles {
   })
   chasisNumber: string | null;
 
-  @OneToMany(() => Reservations, (reservations) => reservations.vehicle)
-  reservations: Reservations[];
+  @OneToMany(() => Rentals, (rentals) => rentals.vehicle)
+  reservations: Rentals[];
 
   @ManyToOne(() => Model, (model) => model.vehicles)
   @JoinColumn([{ name: "model_id", referencedColumnName: "modelId" }])
