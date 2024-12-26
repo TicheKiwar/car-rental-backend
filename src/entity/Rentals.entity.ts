@@ -28,6 +28,14 @@ export class Rentals {
   finalStatus: string | null;
 
   @Column("numeric", {
+    name: "initial_fuel_level",
+    nullable: true,
+    precision: 5,
+    scale: 2
+  })
+  initialFuelLevel: number | null;
+
+  @Column("numeric", {
     name: "final_fuel_level",
     nullable: true,
     precision: 5,
