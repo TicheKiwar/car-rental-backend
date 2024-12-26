@@ -5,10 +5,12 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Reservations } from "./Reservations.entity";
 import { Model } from "./Model.entity";
+import { VehicleStatus } from "./VehicleStatus.entity";
 
 // @Index("vehicles_license_plate_key", ["licensePlate"], { unique: true })
 // @Index("vehicles_pkey", ["vehicleId"], { unique: true })
@@ -105,6 +107,9 @@ export class Vehicles {
   @ManyToOne(() => Model, (model) => model.vehicles)
   @JoinColumn([{ name: "model_id", referencedColumnName: "modelId" }])
   model: Model;
+
+  @OneToOne(() => VehicleStatus, (vehicleStatus) => vehicleStatus.vehicle)
+  vehicleStatus: VehicleStatus;
 
 
 }
