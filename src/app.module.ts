@@ -35,8 +35,8 @@ import {  RentalModule } from './rental/rental.module';
       ssl: process.env.SSL === 'false',
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'), // Ruta de tu carpeta 'public'
-      serveRoot: '/', // Asegura que las imágenes estén accesibles desde la raíz
+      rootPath: join(__dirname, '..', 'public'), 
+      serveRoot: '/', 
     }),
     UserModule,
     AuthModule,
@@ -46,7 +46,7 @@ import {  RentalModule } from './rental/rental.module';
     VehiclesModule,
     ReservationsModule,
     ReturnsModule,
-    //RentalModule,
+    RentalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
