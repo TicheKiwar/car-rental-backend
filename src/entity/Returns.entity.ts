@@ -31,15 +31,24 @@ import {
       precision: 10, 
       scale: 2 
     })
-    damageCost: number | null;
+    costPerDamages: number | null;
 
     @Column("numeric", { 
-      name: "aditional_charges", 
+      name: "cost_day_delay", 
       nullable: true, 
       precision: 10, 
       scale: 2 
     })
-    aditionalCharges: number | null;
+    costDayDelay: number | null;
+
+
+    @Column("numeric", { 
+      name: "fuel_cost", 
+      nullable: true, 
+      precision: 10, 
+      scale: 2 
+    })
+    fuelCost: number | null;
 
     @Column("text", { name: "observations", nullable: true })
     observations: string | null;
