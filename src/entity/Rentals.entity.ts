@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -10,6 +9,7 @@ import {
 import { Employees } from "./Employees.entity";
 import { Reservations } from "./Reservations.entity";
 import { Returns } from "./Returns.entity";
+import { Payments } from "./Payments.entity";
 
 // @Index("rentals_pkey", ["rentalId"], { unique: true })
 @Entity("rentals", { schema: "public" })
@@ -61,7 +61,7 @@ export class Rentals {
   status: string;
 
   @ManyToOne(() => Employees, (employees) => employees.rentals)
-  @JoinColumn([{ name: "employee_id", referencedColumnName: "employeeId" }])
+  @JoinColumn([{ name: "employee_id", referencedColumnName: "employeeId", }])
   employee: Employees;
 
   @ManyToOne(() => Reservations, (reservations) => reservations.rentals)
@@ -72,4 +72,9 @@ export class Rentals {
 
   @OneToMany(() => Returns, (returns) => returns.rental)
   returns: Returns[];
+
+  @OneToMany(() => Payments, (payment) => payment.rental)
+  payments: Payments[];
+  
+
 }
