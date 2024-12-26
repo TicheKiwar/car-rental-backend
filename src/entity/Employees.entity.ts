@@ -11,7 +11,6 @@ import {
 import { Positions } from "./Positions.entity";
 import { Users } from "./Users.entity";
 import { Rentals } from "./Rentals.entity";
-import { Reservations } from "./Reservations.entity";
 import { Returns } from "./Returns.entity";
 
 // @Index("employees_pkey", ["employeeId"], { unique: true })

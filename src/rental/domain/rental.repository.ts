@@ -1,6 +1,6 @@
-import { CreateRentalDto } from "./dto/create-rental.dto"
+import { CheckCar } from "./dto/CheckCar.dto"
 
 export interface ReservationRepository{
     getAll()
-    createRental(userID:number,createRentalDto:CreateRentalDto):Promise<boolean>
+    checkCar(rentalID:number,checkCar:CheckCar)
 }

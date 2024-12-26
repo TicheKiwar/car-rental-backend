@@ -13,7 +13,6 @@ import { AuthModule } from './Auth/auth.module';
 import { ServeStaticModule } from '@nestjs/serve-static';  // Importa ServeStaticModule
 import { join } from 'path';  // Para manejar las rutas
 import { catalogModule } from './Catalog/Catalog.module';
-import { ReservationsModule } from './reservations/reservations.module';
 import { ReturnsModule } from './Return/return.module';
 import {  RentalModule } from './rental/rental.module';
 
@@ -31,7 +30,7 @@ import {  RentalModule } from './rental/rental.module';
       database: process.env.DB_DATABASE,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
       ssl: process.env.SSL === 'false',
     }),
     ServeStaticModule.forRoot({
@@ -44,7 +43,6 @@ import {  RentalModule } from './rental/rental.module';
     BrandModule,
     ModelModule,
     VehiclesModule,
-    ReservationsModule,
     ReturnsModule,
     RentalModule,
   ],
