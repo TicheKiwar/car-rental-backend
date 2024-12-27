@@ -13,6 +13,7 @@ export class RentalService implements RentalRepository {
   constructor(
     @InjectRepository(Rentals)
     private readonly rentalRepository: Repository<Rentals>,
+    @InjectRepository(Payments)
     private readonly paymentRepository: Repository<Payments>,
              
   ) { }
