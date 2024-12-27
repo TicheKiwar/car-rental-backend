@@ -7,7 +7,7 @@ export class CreateRentalDto {
 
     @IsDateString()
     @IsNotEmpty()
-    rentalDate: string;
+    rentalDate: Date;
 
     @IsNumber()
     @IsNotEmpty()

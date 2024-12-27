@@ -19,7 +19,7 @@ export class Rentals {
   rentalId: number;
 
   @Column("date", { name: "rental_date" })
-  rentalDate: string;
+  rentalDate: Date;
 
   @Column("integer", { name: "rental_days",})
   rentalDays: number | null;

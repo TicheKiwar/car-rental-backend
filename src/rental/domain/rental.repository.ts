@@ -10,6 +10,7 @@ export interface RentalRepository{
     createRental(clientID:number,rental:CreateRentalDto)
     createRentalEmployee(employeeID:number,rental:CreateRentalEmployee)
     deleteRental(clientID:number,rentalID:number)
+    deleteRentalEmployee(rentalID:number)
     updateRental(clientID:number,rentalID:number,rental:UpdateRentalDto)
     updateRentalEmployee(clientID:number,rentalID:number,rental:UpdateRentalEmployee)
 }
