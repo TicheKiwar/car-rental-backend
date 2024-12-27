@@ -43,12 +43,6 @@ export class Rentals {
   })
   finalFuelLevel: number | null;
 
-  @Column("integer", { name: "initial_mileage", nullable: true })
-  initialMileage: number | null;
-
-  @Column("integer", { name: "final_mileage", nullable: true })
-  finalMileage: number | null;
-
   @Column("character varying", { name: "rental_status", length: 20,default: () => "'PENDIENTE DE PAGO'" })
   status: string;
 

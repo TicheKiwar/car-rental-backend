@@ -9,7 +9,6 @@ export class CreateRentalDto {
     @IsNotEmpty()
     ClientID?: number;
 
-
     @IsDateString()
     @IsNotEmpty()
     rentalDate: string;

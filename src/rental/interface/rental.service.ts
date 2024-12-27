@@ -40,7 +40,6 @@ export class RentalService implements RentalRepository {
       rental.employee.employeeId = checkCar.employee;
       // rental.initialStatus = checkCar.initialStatus;
       rental.initialFuelLevel = checkCar.initialFuelLevel;
-      rental.initialMileage = checkCar.initialMileage;
       if(rental.payments.length > 0){
         rental.status = 'EN CURSO';
       }
