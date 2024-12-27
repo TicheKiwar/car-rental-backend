@@ -1,6 +1,9 @@
-import { CheckCar } from "./dto/CheckCar.dto"
+import { CreateRentalDto } from "./dto/create-rental.dto"
 
-export interface ReservationRepository{
+export interface RentalRepository{
     getAll()
-    checkCar(rentalID:number,checkCar:CheckCar)
+    getAllByClient(clientID:number)
+    getAllByEmployee(employeeID:number)
+    createRental(clientID:number,rental:CreateRentalDto)
+    createRentalEmployee(employeeID:number,rental:CreateRentalDto)
 }

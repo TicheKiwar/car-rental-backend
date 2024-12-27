@@ -1,17 +1,35 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ReservationRepository } from '../domain/rental.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Rentals } from 'src/entity/Rentals.entity';
 import { Repository } from 'typeorm';
 import { CheckCar } from '../domain/dto/CheckCar.dto';
+import { CreateRentalDto } from '../domain/dto/create-rental.dto';
+import { Payments } from 'src/entity/Payments.entity';
+import { RentalRepository } from '../domain/rental.repository';
 
 @Injectable()
-export class RentalService implements ReservationRepository {
+export class RentalService implements RentalRepository {
 
   constructor(
     @InjectRepository(Rentals)
     private readonly rentalRepository: Repository<Rentals>,
+    private readonly paymentRepository: Repository<Payments>,
+             
   ) { }
+
+  async createRental(clientID: number, rental: CreateRentalDto) {
+    throw new Error('Method not implemented.');
+  }
+  async createRentalEmployee(employeeID: number, rental: CreateRentalDto) {
+    throw new Error('Method not implemented.');
+  }
+
+  async getAllByClient(clientID: number) {
+    throw new Error('Method not implemented.');
+  }
+  async getAllByEmployee(employeeID: number) {
+    throw new Error('Method not implemented.');
+  }
 
   async checkCar(rentalID: number, checkCar: CheckCar) {
     try {
