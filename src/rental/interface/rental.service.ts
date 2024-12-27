@@ -13,7 +13,6 @@ export class RentalService implements RentalRepository {
   constructor(
     @InjectRepository(Rentals)
     private readonly rentalRepository: Repository<Rentals>,
-             
   ) { }
 
   async createRental(clientID: number, rental: CreateRentalDto) {
@@ -62,5 +61,8 @@ export class RentalService implements RentalRepository {
     return await this.rentalRepository.find({ relations: ['vehicle', 'employee',  'client','payments'] });
   }
 
+  async getClientByUserID(userID: number) {
+    return await this.rentalRepository.find({ where: { client: { userId: userID } } });
+  }
 }
 
