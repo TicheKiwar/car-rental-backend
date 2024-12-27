@@ -6,9 +6,10 @@ import { Employees } from '../entity/Employees.entity';
 import { ReturnsController } from './aplication/return.controller';
 import { Vehicles } from '../entity/Vehicles.entity';
 import { ReturnsService } from './interface/return.service';
+import { Payments } from 'src/entity/Payments.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Returns, Rentals, Employees, Vehicles])],
+  imports: [TypeOrmModule.forFeature([Returns, Rentals, Employees, Vehicles,])],
   controllers: [ReturnsController],
   providers: [ReturnsService],
 })

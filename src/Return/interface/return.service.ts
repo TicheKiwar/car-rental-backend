@@ -109,11 +109,10 @@ export class ReturnsService implements IReturnsRepository {
     await this.returnsRepository.save(returnRecord);
 
     // **4. Actualizar la tabla `rental`**
-    rental.finalMileage = createReturnDto.finalMileage ?? rental.finalMileage;
-    rental.totalDays = createReturnDto.totalDays ?? rental.totalDays;
+    // rental.totalDays = createReturnDto.totalDays ?? rental.totalDays;
     rental.status = createReturnDto.rentalStatus;
     rental.finalFuelLevel = createReturnDto.finalFuelLevel ?? rental.finalFuelLevel;
-    rental.finalStatus = createReturnDto.finalStatus ?? rental.finalStatus;
+    // rental.finalStatus = createReturnDto.finalStatus ?? rental.finalStatus;
 
     await this.rentalsRepository.save(rental);
 

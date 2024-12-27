@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Users } from "./Users.entity";
-import { Reservations } from "./Reservations.entity";
+import { Rentals } from "./Rentals.entity";
 
 // @Index("clients_pkey", ["clientId"], { unique: true })
 // @Index("clients_dni_key", ["dni"], { unique: true })
@@ -40,6 +40,6 @@ export class Clients {
   @JoinColumn([{ name: "user_id", referencedColumnName: "userId" }])
   user: Users;
 
-  @OneToMany(() => Reservations, (reservations) => reservations.client)
-  reservations: Reservations[];
+  @OneToMany(() => Rentals, (rentals) => rentals.vehicle)
+  reservations: Rentals[];
 }

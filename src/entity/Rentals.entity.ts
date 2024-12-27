@@ -1,15 +1,16 @@
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Employees } from "./Employees.entity";
-import { Reservations } from "./Reservations.entity";
 import { Returns } from "./Returns.entity";
+import { Payments } from "./Payments.entity";
+import { Clients } from "./Clients.entity";
+import { Vehicles } from "./Vehicles.entity";
 
 // @Index("rentals_pkey", ["rentalId"], { unique: true })
 @Entity("rentals", { schema: "public" })
@@ -17,15 +18,17 @@ export class Rentals {
   @PrimaryGeneratedColumn({ type: "integer", name: "rental_id" })
   rentalId: number;
 
-  @Column("character varying", { name: "initial_status", length: 20, nullable: true })
-  initialStatus: string;
+  @Column("date", { name: "rental_date" })
+  rentalDate: Date;
 
-  @Column("character varying", {
-    name: "final_status",
-    nullable: true,
-    length: 20,
+  @Column("integer", { name: "rental_days",})
+  rentalDays: number | null;
+
+  @Column("timestamp", {
+    name: 'created_at',
+    default: () => 'CURRENT_TIMESTAMP',
   })
-  finalStatus: string | null;
+  createdAt: Date;
 
   @Column("numeric", {
     name: "initial_fuel_level",
@@ -43,31 +46,25 @@ export class Rentals {
   })
   finalFuelLevel: number | null;
 
-  @Column("integer", { name: "initial_mileage", nullable: true })
-  initialMileage: number | null;
-
-  @Column("integer", { name: "final_mileage", nullable: true })
-  finalMileage: number | null;
-
-  @Column("integer", { name: "total_days", nullable: true })
-  totalDays: number | null;
-
-  @Column("numeric", { name: "total_cost", precision: 10, scale: 2, nullable: true })
-  totalCost: string;
-
-  @Column("character varying", { name: "rental_status", length: 20 })
+  @Column("character varying", { name: "rental_status", length: 20,default: () => "'SIN PAGO INICIAL'" })
   status: string;
 
   @ManyToOne(() => Employees, (employees) => employees.rentals)
-  @JoinColumn([{ name: "employee_id", referencedColumnName: "employeeId" }])
+  @JoinColumn([{ name: "employee_id", referencedColumnName: "employeeId", }])
   employee: Employees;
-
-  @ManyToOne(() => Reservations, (reservations) => reservations.rentals)
-  @JoinColumn([
-    { name: "reservation_id", referencedColumnName: "reservationId" },
-  ])
-  reservation: Reservations;
 
   @OneToMany(() => Returns, (returns) => returns.rental)
   returns: Returns[];
+
+  @OneToMany(() => Payments, (payment) => payment.rental)
+  payments: Payments[];
+
+  @ManyToOne(() => Clients, (clients) => clients.reservations)
+  @JoinColumn([{ name: "client_id", referencedColumnName: "clientId" }])
+  client: Clients;
+
+  @ManyToOne(() => Vehicles, (vehicles) => vehicles.reservations)
+  @JoinColumn([{ name: "vehicle_id", referencedColumnName: "vehicleId" }])
+  vehicle: Vehicles;
+
 }
