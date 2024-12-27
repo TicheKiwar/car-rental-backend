@@ -4,8 +4,8 @@ import { Rentals } from 'src/entity/Rentals.entity';
 import { Repository } from 'typeorm';
 import { CheckCar } from '../domain/dto/CheckCar.dto';
 import { CreateRentalDto } from '../domain/dto/create-rental.dto';
-import { Payments } from 'src/entity/Payments.entity';
 import { RentalRepository } from '../domain/rental.repository';
+import { CreateRentalEmployee } from '../domain/dto/create-rentalEmployee.dto';
 
 @Injectable()
 export class RentalService implements RentalRepository {
@@ -13,23 +13,31 @@ export class RentalService implements RentalRepository {
   constructor(
     @InjectRepository(Rentals)
     private readonly rentalRepository: Repository<Rentals>,
-    @InjectRepository(Payments)
-    private readonly paymentRepository: Repository<Payments>,
              
   ) { }
 
   async createRental(clientID: number, rental: CreateRentalDto) {
-    throw new Error('Method not implemented.');
+    const newRental = this.rentalRepository.create(rental);
+    newRental.client.clientId = clientID;
+    return await this.rentalRepository.save(newRental);
   }
-  async createRentalEmployee(employeeID: number, rental: CreateRentalDto) {
-    throw new Error('Method not implemented.');
+  async createRentalEmployee(employeeID: number, rental: CreateRentalEmployee) {
+    const newRental = this.rentalRepository.create(rental);
+    newRental.employee.employeeId = employeeID;
+    return await this.rentalRepository.save(newRental);
   }
 
   async getAllByClient(clientID: number) {
-    throw new Error('Method not implemented.');
+    return await this.rentalRepository.find({ where:{
+      client:{clientId:clientID}
+    },
+    relations: ['vehicle', 'employee','payments'] });
   }
   async getAllByEmployee(employeeID: number) {
-    throw new Error('Method not implemented.');
+    return await this.rentalRepository.find({ where:{
+      employee:{employeeId:employeeID}
+    },
+    relations: ['vehicle', 'client','payments'] });
   }
 
   async checkCar(rentalID: number, checkCar: CheckCar) {
@@ -39,7 +47,6 @@ export class RentalService implements RentalRepository {
       });
 
       rental.employee.employeeId = checkCar.employee;
-      // rental.initialStatus = checkCar.initialStatus;
       rental.initialFuelLevel = checkCar.initialFuelLevel;
       if(rental.payments.length > 0){
         rental.status = 'EN CURSO';
@@ -52,7 +59,7 @@ export class RentalService implements RentalRepository {
   }
 
   async getAll() {
-    return await this.rentalRepository.find({ relations: ['vehicle', 'employee', 'reservation'] });
+    return await this.rentalRepository.find({ relations: ['vehicle', 'employee',  'client','payments'] });
   }
 
 }

@@ -43,7 +43,7 @@ export class Rentals {
   })
   finalFuelLevel: number | null;
 
-  @Column("character varying", { name: "rental_status", length: 20,default: () => "'PENDIENTE DE PAGO'" })
+  @Column("character varying", { name: "rental_status", length: 20,default: () => "'PENDIENTE DE PAGO INICIAL'" })
   status: string;
 
   @ManyToOne(() => Employees, (employees) => employees.rentals)

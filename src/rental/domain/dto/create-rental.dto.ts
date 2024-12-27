@@ -5,10 +5,6 @@ export class CreateRentalDto {
     @IsNotEmpty()
     vehicleId: number;
 
-    @IsNumber()
-    @IsNotEmpty()
-    ClientID?: number;
-
     @IsDateString()
     @IsNotEmpty()
     rentalDate: string;
@@ -25,7 +21,4 @@ export class CreateRentalDto {
     @IsNotEmpty()
     initialFuelLevel: number;
 
-    @IsNumber()
-    @IsNotEmpty()
-    initialMileage: number;
 }
