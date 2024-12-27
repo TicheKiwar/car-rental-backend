@@ -18,8 +18,8 @@ export class RentalService implements RentalRepository {
     @InjectRepository(Vehicles)
     private readonly vehicleRepository: Repository<Vehicles>,
   ) { }
-  async deleteRentalEmployee( rentalID: number) {
-    const rental = await this.rentalRepository.findOne({ 
+  async deleteRentalEmployee(rentalID: number) {
+    const rental = await this.rentalRepository.findOne({
       where: {
         rentalId: rentalID
       },
@@ -30,7 +30,7 @@ export class RentalService implements RentalRepository {
     this.setRentalStatus(rental, 'CANCELADO');
   }
   async deleteRental(clientID: number, rentalID: number) {
-    const rental = await this.rentalRepository.findOne({ 
+    const rental = await this.rentalRepository.findOne({
       where: {
         client: { clientId: clientID },
         rentalId: rentalID
@@ -53,7 +53,7 @@ export class RentalService implements RentalRepository {
     }
     const verify = await this.canEditRental(rent.createdAt);
     const verifyDate = await this.canEditDate(rental.rentalDate);
-    if (!verify||!verifyDate) {
+    if (!verify || !verifyDate) {
       throw new BadRequestException("No se puede editar el alquiler");
     }
     rent.rentalDate = rental.rentalDate;
@@ -71,14 +71,14 @@ export class RentalService implements RentalRepository {
       throw new NotFoundException("No se encontro el alquiler");
     }
     const verify = await this.canEditRental(rent.createdAt);
-    const verifyDate = await this.canEditDate(rental.rentalDate);               
-    if (!verify||!verifyDate) {
+    const verifyDate = await this.canEditDate(rental.rentalDate);
+    if (!verify || !verifyDate) {
       throw new BadRequestException("No se puede editar el alquiler");
     }
     rent.rentalDate = rental.rentalDate;
     rent.rentalDays = rental.rentalDays;
+    rent.employee.employeeId = employeeID;
     rent.initialFuelLevel = rental.initialFuelLevel;
-
     await this.rentalRepository.save(rent);
     return true;
   }
@@ -153,7 +153,7 @@ export class RentalService implements RentalRepository {
     const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
     return differenceInDays >= 2;
   }
-  
+
   async setRentalStatus(rental: Rentals, status: string) {
     try {
       rental.status = status;
