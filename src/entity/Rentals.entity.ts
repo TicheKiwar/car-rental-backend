@@ -18,9 +18,6 @@ export class Rentals {
   @PrimaryGeneratedColumn({ type: "integer", name: "rental_id" })
   rentalId: number;
 
-  @Column("character varying", { name: "initial_status", length: 20, nullable: true })
-  initialStatus: string;
-
   @Column("date", { name: "rental_date" })
   rentalDate: string;
 
@@ -29,13 +26,6 @@ export class Rentals {
 
   @Column("time without time zone", { name: "rental_time", nullable:true})
   retalTime: string;
-
-  @Column("character varying", {
-    name: "final_status",
-    nullable: true,
-    length: 20,
-  })
-  finalStatus: string | null;
 
   @Column("numeric", {
     name: "initial_fuel_level",
@@ -59,19 +49,12 @@ export class Rentals {
   @Column("integer", { name: "final_mileage", nullable: true })
   finalMileage: number | null;
 
-  @Column("integer", { name: "total_days", nullable: true })
-  totalDays: number | null;
-
-  @Column("numeric", { name: "total_cost", precision: 10, scale: 2, nullable: true })
-  totalCost: string;
-
   @Column("character varying", { name: "rental_status", length: 20,default: () => "'PENDIENTE DE PAGO'" })
   status: string;
 
   @ManyToOne(() => Employees, (employees) => employees.rentals)
   @JoinColumn([{ name: "employee_id", referencedColumnName: "employeeId", }])
   employee: Employees;
-
 
   @OneToMany(() => Returns, (returns) => returns.rental)
   returns: Returns[];
@@ -82,7 +65,6 @@ export class Rentals {
   @ManyToOne(() => Clients, (clients) => clients.reservations)
   @JoinColumn([{ name: "client_id", referencedColumnName: "clientId" }])
   client: Clients;
-
 
   @ManyToOne(() => Vehicles, (vehicles) => vehicles.reservations)
   @JoinColumn([{ name: "vehicle_id", referencedColumnName: "vehicleId" }])

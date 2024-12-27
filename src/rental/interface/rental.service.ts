@@ -20,7 +20,7 @@ export class RentalService implements ReservationRepository {
       });
 
       rental.employee.employeeId = checkCar.employee;
-      rental.initialStatus = checkCar.initialStatus;
+      // rental.initialStatus = checkCar.initialStatus;
       rental.initialFuelLevel = checkCar.initialFuelLevel;
       rental.initialMileage = checkCar.initialMileage;
       if(rental.payments.length > 0){
