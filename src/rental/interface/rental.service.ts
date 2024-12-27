@@ -16,13 +16,27 @@ export class RentalService implements RentalRepository {
   ) { }
 
   async createRental(clientID: number, rental: CreateRentalDto) {
-    const newRental = this.rentalRepository.create(rental);
-    newRental.client.clientId = clientID;
+    const newRental = this.rentalRepository.create({
+      vehicle:{ vehicleId:rental.vehicleId,},
+      rentalDate: rental.rentalDate,
+      client: { clientId: clientID },
+      rentalDays: rental.rentalDays,
+      rentalTime: rental.rentalTime,
+      initialFuelLevel: rental.initialFuelLevel,
+    });
     return await this.rentalRepository.save(newRental);
   }
   async createRentalEmployee(employeeID: number, rental: CreateRentalEmployee) {
-    const newRental = this.rentalRepository.create(rental);
-    newRental.employee.employeeId = employeeID;
+    const newRental = this.rentalRepository.create({
+      vehicle:{ vehicleId:rental.vehicleId,},
+      rentalDate: rental.rentalDate,
+      client: { clientId: rental.ClientID },
+      employee: { employeeId: employeeID },
+      rentalDays: rental.rentalDays,
+      rentalTime: rental.rentalTime,
+      initialFuelLevel: rental.initialFuelLevel,
+    });
+
     return await this.rentalRepository.save(newRental);
   }
 
@@ -30,13 +44,13 @@ export class RentalService implements RentalRepository {
     return await this.rentalRepository.find({ where:{
       client:{clientId:clientID}
     },
-    relations: ['vehicle', 'employee','payments'] });
+    relations: ['vehicle','vehicle.model',"vehicle.model.brand", 'employee','payments'] });
   }
   async getAllByEmployee(employeeID: number) {
     return await this.rentalRepository.find({ where:{
       employee:{employeeId:employeeID}
     },
-    relations: ['vehicle', 'client','payments'] });
+    relations: ['vehicle','vehicle.model',"vehicle.model.brand", 'client','payments'] });
   }
 
   async checkCar(rentalID: number, checkCar: CheckCar) {
@@ -58,11 +72,8 @@ export class RentalService implements RentalRepository {
   }
 
   async getAll() {
-    return await this.rentalRepository.find({ relations: ['vehicle', 'employee',  'client','payments'] });
+    return await this.rentalRepository.find({ relations: ['vehicle','vehicle.model',"vehicle.model.brand", 'employee',  'client','payments'] });
   }
 
-  async getClientByUserID(userID: number) {
-    return await this.rentalRepository.find({ where: { client: { userId: userID } } });
-  }
 }
 

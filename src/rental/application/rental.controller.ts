@@ -35,7 +35,7 @@ export class RentalController {
     return await this.rentalService.createRentalEmployee(user.employees.employeeId, rental);
   }
 
-  @Get("client/rentals")
+  @Get("client")
   @Role(TRole.Client)
   @UseGuards(JwtAuthGuard, RoleGuard)
   async getAllByClient(
@@ -43,7 +43,7 @@ export class RentalController {
     return await this.rentalService.getAllByClient(user.clients.clientId);
   }
 
-  @Get("employee/rentals")
+  @Get("employee")
   @Role(TRole.EMPLOYEE)
   @UseGuards(JwtAuthGuard, RoleGuard)
   async getAllByEmployee(
@@ -52,7 +52,7 @@ export class RentalController {
     return await this.rentalService.getAllByEmployee(user.employees.employeeId);
   }
 
-  @Get("rentals")
+  @Get("")
   @Role(TRole.Client)
   @UseGuards(JwtAuthGuard, RoleGuard)
   async getAll() {

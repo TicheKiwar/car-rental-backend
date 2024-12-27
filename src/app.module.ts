@@ -14,7 +14,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';  // Importa ServeStati
 import { join } from 'path';  // Para manejar las rutas
 import { catalogModule } from './Catalog/Catalog.module';
 import { ReturnsModule } from './Return/return.module';
-import {  RentalModule } from './rental/rental.module';
+import { RentalModule } from './rental/rental.module';
 
 @Module({
   imports: [

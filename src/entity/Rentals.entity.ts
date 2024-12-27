@@ -25,7 +25,7 @@ export class Rentals {
   rentalDays: number | null;
 
   @Column("time without time zone", { name: "rental_time", nullable:true})
-  retalTime: string;
+  rentalTime: string;
 
   @Column("numeric", {
     name: "initial_fuel_level",
@@ -43,7 +43,7 @@ export class Rentals {
   })
   finalFuelLevel: number | null;
 
-  @Column("character varying", { name: "rental_status", length: 20,default: () => "'PENDIENTE DE PAGO INICIAL'" })
+  @Column("character varying", { name: "rental_status", length: 20,default: () => "'SIN PAGO INICIAL'" })
   status: string;
 
   @ManyToOne(() => Employees, (employees) => employees.rentals)
