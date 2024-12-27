@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsDateString, IsNotEmpty, IsNumber,} from "class-validator";
 
 export class CreateRentalDto {
     @IsNumber()
@@ -12,13 +12,5 @@ export class CreateRentalDto {
     @IsNumber()
     @IsNotEmpty()
     rentalDays: number;
-
-    @IsString()
-    @IsOptional()
-    rentalTime?: string;
-
-    @IsNumber()
-    @IsNotEmpty()
-    initialFuelLevel: number;
 
 }
