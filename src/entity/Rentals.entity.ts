@@ -24,8 +24,11 @@ export class Rentals {
   @Column("integer", { name: "rental_days",})
   rentalDays: number | null;
 
-  @Column("time without time zone", { name: "rental_time", nullable:true})
-  rentalTime: string;
+  @Column("timestamp", {
+    name: 'created_at',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
 
   @Column("numeric", {
     name: "initial_fuel_level",
