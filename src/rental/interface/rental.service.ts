@@ -23,7 +23,7 @@ export class RentalService implements RentalRepository {
       where: {
         rentalId: rentalID
       },
-      relations:["vehicle"]
+      relations: ["vehicle"]
     });
     if (!rental) {
       throw new NotFoundException("No se encontro el alquiler del cliente");
@@ -36,7 +36,7 @@ export class RentalService implements RentalRepository {
       where: {
         client: { clientId: clientID },
         rentalId: rentalID
-      },relations: ['vehicle']
+      }, relations: ['vehicle']
     });
     if (!rental) {
       throw new NotFoundException("No se encontro el alquiler del cliente");
@@ -70,7 +70,7 @@ export class RentalService implements RentalRepository {
       where: {
         rentalId: rentalID
       },
-      relations:['employee']
+      relations: ['employee']
     });
     if (!rent) {
       throw new NotFoundException("No se encontro el alquiler");
@@ -87,25 +87,32 @@ export class RentalService implements RentalRepository {
     return true;
   }
 
-  
+
   async markCar(employeeID: number, rentalID: number, rental: UpdateRentalEmployee) {
     const rent = await this.rentalRepository.findOne({
       where: {
         rentalId: rentalID
-      },relations:['employee']
+      }, relations: ['employee']
     });
     if (!rent) {
       throw new NotFoundException("No se encontro el alquiler");
     }
-    const verify = await this.canMarkDate(rent.createdAt);
+    const verify = await this.canMarkDate(rent.rentalDate);
+    console.log(verify)
     if (!verify) {
       throw new BadRequestException("No se puede editar el alquiler");
     }
-    rent.employee.employeeId = employeeID;
-    rent.initialFuelLevel = rental.initialFuelLevel;
-    rent.markAt = await this.rentalRepository.query('SELECT NOW()')
-    rent.status = 'En Curso'
-    await this.rentalRepository.save(rent);
+    await this.rentalRepository
+    .createQueryBuilder()
+    .update(Rentals)
+    .set({
+      markAt: () => 'CURRENT_TIMESTAMP',
+      initialFuelLevel : rental.initialFuelLevel,
+      employee:{employeeId:rent.employee.employeeId},
+      status : 'En Curso'
+    })
+    .where('rentalId = :rentalID', { rentalID })
+    .execute();
     return true;
   }
 
@@ -166,18 +173,18 @@ export class RentalService implements RentalRepository {
   }
 
   async canEditRental(rentalCreatedAt: Date): Promise<boolean> {
-     const currentTimestamp = await this.rentalRepository.query('SELECT NOW()');
-  const now = new Date(currentTimestamp[0].now);
+    const currentTimestamp = await this.rentalRepository.query('SELECT NOW()');
+    const now = new Date(currentTimestamp[0].now);
 
-  // Convertir rentalCreatedAt a Date si es una cadena
-  const rentalCreatedDate = typeof rentalCreatedAt === 'string' ? new Date(rentalCreatedAt) : rentalCreatedAt;
+    // Convertir rentalCreatedAt a Date si es una cadena
+    const rentalCreatedDate = typeof rentalCreatedAt === 'string' ? new Date(rentalCreatedAt) : rentalCreatedAt;
 
-  if (isNaN(rentalCreatedDate.getTime())) {
-    throw new Error('Invalid rentalCreatedAt date');
-  }
+    if (isNaN(rentalCreatedDate.getTime())) {
+      throw new Error('Invalid rentalCreatedAt date');
+    }
 
-  const timeElapsed = (now.getTime() - rentalCreatedDate.getTime()) / (1000 * 60 * 60);
-  return timeElapsed <= this.editTimeLimitInHours;
+    const timeElapsed = (now.getTime() - rentalCreatedDate.getTime()) / (1000 * 60 * 60);
+    return timeElapsed <= this.editTimeLimitInHours;
   }
 
   async canEditDate(rentalDate: Date): Promise<boolean> {
@@ -193,10 +200,13 @@ export class RentalService implements RentalRepository {
   async canMarkDate(rentalDate: Date): Promise<boolean> {
     const currentTimestamp = await this.rentalRepository.query('SELECT NOW()');
     const now = new Date(currentTimestamp[0].now);
+
+    // Asegurarse de que rentalDate sea un objeto Date
     const rentalAt = typeof rentalDate === 'string' ? new Date(rentalDate) : rentalDate;
-    const differenceInMilliseconds = rentalAt.getTime() - now.getTime();
-    const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
-    return differenceInDays === 0;
+
+    // Comparar las fechas: Solo permitir si rentalDate es mayor o igual a la fecha actual
+    return rentalAt <= now;
+
   }
 
   async setRentalStatus(rental: Rentals, status: string) {

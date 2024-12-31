@@ -8,7 +8,6 @@ import { RoleGuard } from 'src/Auth/guards/role-auth.guard';
 import { TRole } from 'src/common/types/role.type';
 import { User } from 'src/common/decorators/user.decorator';
 import { Users } from 'src/entity/Users.entity';
-import { UserService } from 'src/user/interface/user.service';
 import { UpdateRentalEmployee } from '../domain/dto/update-rentalEmployee.dto';
 import { UpdateRentalDto } from '../domain/dto/update-rental.dto';
 import { verify } from '../domain/dto/verifi.dto';
@@ -17,7 +16,6 @@ import { verify } from '../domain/dto/verifi.dto';
 export class RentalController {
   constructor(
     private readonly rentalService: RentalService,
-    private readonly userService: UserService
   ) { }
 
   @Post("client")
