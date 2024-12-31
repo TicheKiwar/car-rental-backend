@@ -31,6 +31,18 @@ export class ClientService implements IClientRepository {
         return client;
     }
 
+    async getClientByDni(dni: string) {
+        const client = await this.clientRepository
+            .findOne({
+                where: { dni:dni },
+            })
+
+        if (!client) {
+            throw new NotFoundException(`Cliente con C.I. ${dni} no encontrado`);
+        }
+        return client;
+    }
+
     async getAllClients() {
         return await this.clientRepository
             .createQueryBuilder('client')

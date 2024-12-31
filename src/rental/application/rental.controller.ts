@@ -11,6 +11,7 @@ import { Users } from 'src/entity/Users.entity';
 import { UserService } from 'src/user/interface/user.service';
 import { UpdateRentalEmployee } from '../domain/dto/update-rentalEmployee.dto';
 import { UpdateRentalDto } from '../domain/dto/update-rental.dto';
+import { verify } from '../domain/dto/verifi.dto';
 
 @Controller('rental')
 export class RentalController {
@@ -91,6 +92,17 @@ export class RentalController {
     return await this.rentalService.updateRentalEmployee(user.employees.employeeId,rentalID,rental);
   }
 
+  @Patch("mark/:rentalID")
+  @Role(TRole.EMPLOYEE)
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  async markCar(
+    @User() user: Users,
+    @Param("rentalID",ParseIntPipe ) rentalID: number,
+    @Body() rental: UpdateRentalEmployee
+  ){
+    return await this.rentalService.markCar(user.employees.employeeId,rentalID,rental);
+  }
+
   @Patch("client/:rentalID")
   @Role(TRole.Client)
   @UseGuards(JwtAuthGuard, RoleGuard)
@@ -99,6 +111,17 @@ export class RentalController {
     @Param("rentalID",ParseIntPipe ) rentalID: number,
     @Body() rental: UpdateRentalDto
   ){
-    return await this.rentalService.updateRentalEmployee(user.clients.clientId,rentalID,rental);
+    return await this.rentalService.updateRental(user.clients.clientId,rentalID,rental);
   }
+
+  @Post("verify")
+  async getVerify(
+    @Body() date: verify
+  ) {
+    const verifyHour = await this.rentalService.canEditRental(date.createdAt);
+    const verifyDate = await this.rentalService.canEditDate(date.rentalDate);
+    const verifyMark = await this.rentalService.canMarkDate(date.rentalDate);
+    return { verifyHour, verifyDate, verifyMark };
+  }
+
 }
