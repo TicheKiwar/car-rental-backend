@@ -17,6 +17,11 @@ export class ClientController {
         return this.clientService.getClientById(id);
     }
 
+    @Get('dni/:id')
+    async getClientByDni(@Param('id') id: string) {
+        return this.clientService.getClientByDni(id);
+    }
+
     @Get()
     async getAllClients() {
         return this.clientService.getAllClients();

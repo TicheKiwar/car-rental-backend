@@ -30,6 +30,12 @@ export class Rentals {
   })
   createdAt: Date;
 
+  @Column("timestamp", {
+    name: 'mark_at',
+    nullable: true,
+  })
+  markAt: Date;
+
   @Column("numeric", {
     name: "initial_fuel_level",
     nullable: true,
