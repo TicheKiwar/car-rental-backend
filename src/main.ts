@@ -13,13 +13,14 @@ async function bootstrap() {
   );
   app.enableCors({
     origin: '*', // Permitir solicitudes desde cualquier origen
-    methods: ['GET', 'POST', 'PUT','PATCH', 'DELETE'], // Métodos permitidos
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Cabeceras permitidas
     preflightContinue: false,
     optionsSuccessStatus: 204,
     credentials: true,
   });
 
-  await app.listen(3000);
+  //await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
