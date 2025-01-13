@@ -16,6 +16,7 @@ import { catalogModule } from './Catalog/Catalog.module';
 import { ReturnsModule } from './Return/return.module';
 import { RentalModule } from './rental/rental.module';
 import { PaymentModule } from './payments/payment.module';
+import { MaintenanceModule } from './Maintenance/maintenance.module';
 
 @Module({
   imports: [
@@ -35,8 +36,8 @@ import { PaymentModule } from './payments/payment.module';
       ssl: process.env.SSL === 'false',
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'), 
-      serveRoot: '/', 
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/',
     }),
     UserModule,
     AuthModule,
@@ -46,7 +47,8 @@ import { PaymentModule } from './payments/payment.module';
     VehiclesModule,
     ReturnsModule,
     RentalModule,
-    PaymentModule
+    PaymentModule,
+    MaintenanceModule
   ],
   controllers: [AppController],
   providers: [AppService],
