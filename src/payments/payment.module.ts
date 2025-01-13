@@ -6,9 +6,10 @@ import { PaymentController } from "./application/payment.controller";
 import { PaymentService } from "./interface/payment.service";
 import { RentalService } from "src/rental/interface/rental.service";
 import { RentalModule } from "src/rental/rental.module";
+import { Returns } from "src/entity/Returns.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Rentals,Payments]), RentalModule],
+  imports: [TypeOrmModule.forFeature([Rentals,Payments, Returns]), RentalModule],
   controllers: [PaymentController],
   providers: [PaymentService],
   exports: [PaymentService]

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class PaymentDto {
 
@@ -17,4 +17,12 @@ export class PaymentDto {
     @IsNumber()
     @IsNotEmpty()
     amount: number;
+
+    @IsString()
+    @IsOptional()
+    rentalStatus: string;
+
+    @IsNumber()
+    @IsOptional()
+    returnId: number;
 }

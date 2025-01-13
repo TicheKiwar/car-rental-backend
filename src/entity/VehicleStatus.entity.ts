@@ -32,7 +32,7 @@ import {
     @Column("boolean", { name: "mirrors" })
     mirrors: boolean;
   
-    @Column("boolean", { name: "foreignFluids" })
+    @Column("boolean", { name: "foreign_fluids" })
     foreignFluids: boolean;
   
     @Column("boolean", { name: "brakes" })
@@ -40,9 +40,6 @@ import {
   
     @Column("boolean", { name: "documents" })
     documents: boolean;
-  
-    @Column("numeric", { name: "fuel_level" })
-    fuelLevel: number;
   
     @OneToOne(() => Vehicles)
     @JoinColumn([{ name: "vehicle_id", referencedColumnName: "vehicleId" }])
