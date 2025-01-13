@@ -24,6 +24,7 @@ export class ReturnsService implements IReturnsRepository {
     private readonly vehicleStatusRepository: Repository<VehicleStatus>,
   ) { }
 
+
   async findAll() {
     // Consulta SQL personalizada
     const query = `
