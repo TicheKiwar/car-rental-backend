@@ -216,7 +216,11 @@ export class ReturnsService implements IReturnsRepository {
       vehicleStatusRecord.brakes === false ||
       vehicleStatusRecord.documents === false;
 
+    console.log(vehicleStatusRecord)
+    console.log(maintenanceRequired)
+    console.log(createReturnDto.vehicleId)
     if (maintenanceRequired) {
+      console.log("Hola")
       await this.maintenanceService.createMaintenance(createReturnDto.vehicleId);
     }
 
