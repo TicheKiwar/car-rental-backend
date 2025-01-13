@@ -10,6 +10,7 @@ import { VehiclesService } from 'src/Vehicle/interface/vehicle.service';
 @Module({
   imports: [TypeOrmModule.forFeature([VehicleStatus, VehicleMaintenance, Vehicles])],
   providers: [MaintenanceService],
-  controllers: [MaintenanceController]
+  controllers: [MaintenanceController],
+  exports: [MaintenanceService]
 })
 export class MaintenanceModule { }

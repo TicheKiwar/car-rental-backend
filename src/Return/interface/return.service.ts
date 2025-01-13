@@ -8,6 +8,7 @@ import { IReturnsRepository } from '../domain/return.repository';
 import { CreateReturnDto } from '../dto/create-return.dto';
 import { Vehicles } from '../../entity/Vehicles.entity';
 import { VehicleStatus } from 'src/entity/VehicleStatus.entity';
+import { MaintenanceService } from 'src/Maintenance/interface/maintenance.service';
 
 @Injectable()
 export class ReturnsService implements IReturnsRepository {
@@ -22,11 +23,11 @@ export class ReturnsService implements IReturnsRepository {
     private readonly vehiclesRepository: Repository<Vehicles>,
     @InjectRepository(VehicleStatus)
     private readonly vehicleStatusRepository: Repository<VehicleStatus>,
+    private readonly maintenanceService: MaintenanceService,
   ) { }
 
 
   async findAll() {
-    // Consulta SQL personalizada
     const query = `
       SELECT 
         r.rental_id,
@@ -130,10 +131,10 @@ export class ReturnsService implements IReturnsRepository {
       WHERE  
           r.rental_id = $1
     `;
-  
+
     // Ejecutar la consulta
     const result = await this.returnsRepository.query(query, [id]);
-  
+
     return result[0]; // Devolver el primer resultado (ya que findOne solo devuelve un resultado)
   }
 
@@ -184,28 +185,42 @@ export class ReturnsService implements IReturnsRepository {
     vehicle.mileage = createReturnDto.finalMileage;
     await this.vehiclesRepository.save(vehicle);
 
-     // Actualizar el estado del vehículo en vehicle_status
-  const vehicleStatusRecord = await this.vehicleStatusRepository.findOne({
-    where: { vehicleId },
-  });
+    // Actualizar el estado del vehículo en vehicle_status
+    const vehicleStatusRecord = await this.vehicleStatusRepository.findOne({
+      where: { vehicleId },
+    });
 
-  if (!vehicleStatusRecord) {
-    throw new Error('Vehicle status record not found');
-  }
+    if (!vehicleStatusRecord) {
+      throw new Error('Vehicle status record not found');
+    }
 
-  // Solo actualizamos los campos que están presentes en el DTO
-  vehicleStatusRecord.scratches = createReturnDto.scratches ?? vehicleStatusRecord.scratches;
-  vehicleStatusRecord.dents = createReturnDto.dents ?? vehicleStatusRecord.dents;
-  vehicleStatusRecord.lights = createReturnDto.lights ?? vehicleStatusRecord.lights;
-  vehicleStatusRecord.tires = createReturnDto.tires ?? vehicleStatusRecord.tires;
-  vehicleStatusRecord.windshield = createReturnDto.windshield ?? vehicleStatusRecord.windshield;
-  vehicleStatusRecord.mirrors = createReturnDto.mirrors ?? vehicleStatusRecord.mirrors;
-  vehicleStatusRecord.foreignFluids = createReturnDto.foreign_fluids ?? vehicleStatusRecord.foreignFluids;
-  vehicleStatusRecord.brakes = createReturnDto.brakes ?? vehicleStatusRecord.brakes;
-  vehicleStatusRecord.documents = createReturnDto.documents ?? vehicleStatusRecord.documents;
+    // Solo actualizamos los campos que están presentes en el DTO
+    vehicleStatusRecord.scratches = createReturnDto.scratches ?? vehicleStatusRecord.scratches;
+    vehicleStatusRecord.dents = createReturnDto.dents ?? vehicleStatusRecord.dents;
+    vehicleStatusRecord.lights = createReturnDto.lights ?? vehicleStatusRecord.lights;
+    vehicleStatusRecord.tires = createReturnDto.tires ?? vehicleStatusRecord.tires;
+    vehicleStatusRecord.windshield = createReturnDto.windshield ?? vehicleStatusRecord.windshield;
+    vehicleStatusRecord.mirrors = createReturnDto.mirrors ?? vehicleStatusRecord.mirrors;
+    vehicleStatusRecord.foreignFluids = createReturnDto.foreign_fluids ?? vehicleStatusRecord.foreignFluids;
+    vehicleStatusRecord.brakes = createReturnDto.brakes ?? vehicleStatusRecord.brakes;
+    vehicleStatusRecord.documents = createReturnDto.documents ?? vehicleStatusRecord.documents;
 
-  // Guardar los cambios en vehicle_status
-  await this.vehicleStatusRepository.save(vehicleStatusRecord);
+    const maintenanceRequired =
+      vehicleStatusRecord.scratches === false ||
+      vehicleStatusRecord.dents === false ||
+      vehicleStatusRecord.lights === false ||
+      vehicleStatusRecord.tires === false ||
+      vehicleStatusRecord.windshield === false ||
+      vehicleStatusRecord.mirrors === false ||
+      vehicleStatusRecord.foreignFluids === true ||
+      vehicleStatusRecord.brakes === false ||
+      vehicleStatusRecord.documents === false;
+
+    if (maintenanceRequired) {
+      await this.maintenanceService.createMaintenance(createReturnDto.vehicleId);
+    }
+
+    await this.vehicleStatusRepository.save(vehicleStatusRecord);
 
     return { message: 'Return processed successfully' };
   }
