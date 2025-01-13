@@ -14,4 +14,9 @@ export class PaymentController {
   ){
     return await this.paymentService.deposit(paymentDto)
   }
+
+  @Post("update")
+  async updatePayment(@Body() paymentDto: PaymentDto) {
+    return await this.paymentService.createPayReturn(paymentDto);
+  }
 }

@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsDateString,
   IsInt,
   IsNotEmpty,
@@ -48,10 +49,6 @@ export class CreateReturnDto {
   @IsOptional()
   finalMileage?: number;
 
-  @IsNumber()
-  @IsOptional()
-  totalDays?: number;
-
   @IsString()
   @IsNotEmpty()
   rentalStatus: string;
@@ -61,10 +58,46 @@ export class CreateReturnDto {
   finalFuelLevel?: number;
 
   @IsString()
-  @IsOptional()
-  finalStatus?: string;
-
-  @IsString()
   @IsNotEmpty()
   vehicleStatus: string;
+
+  //vehicle status
+
+  @IsBoolean()
+  @IsOptional()
+  scratches?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  dents?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  lights?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  tires?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  windshield?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  mirrors?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  foreign_fluids?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  brakes?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  documents?: boolean;
+  
 }
+

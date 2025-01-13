@@ -108,7 +108,7 @@ export class RentalService implements RentalRepository {
     .set({
       markAt: () => 'CURRENT_TIMESTAMP',
       initialFuelLevel : rental.initialFuelLevel,
-      employee:{employeeId:rent.employee.employeeId},
+      employee:{employeeId:employeeID},
       status : 'En Curso'
     })
     .where('rentalId = :rentalID', { rentalID })
