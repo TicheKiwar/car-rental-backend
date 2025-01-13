@@ -98,6 +98,7 @@ export class RentalController {
     @Param("rentalID",ParseIntPipe ) rentalID: number,
     @Body() rental: UpdateRentalEmployee
   ){
+    console.log(user.employees.employeeId,rentalID,rental)
     return await this.rentalService.markCar(user.employees.employeeId,rentalID,rental);
   }
 
