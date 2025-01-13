@@ -11,6 +11,7 @@ import {
 import { Model } from "./Model.entity";
 import { VehicleStatus } from "./VehicleStatus.entity";
 import { Rentals } from "./Rentals.entity";
+import { VehicleMaintenance } from "./VehicleMaintenance";
 
 // @Index("vehicles_license_plate_key", ["licensePlate"], { unique: true })
 // @Index("vehicles_pkey", ["vehicleId"], { unique: true })
