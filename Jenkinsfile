@@ -15,6 +15,15 @@ pipeline {
 
             }
         }
+
+        stage('Stop and Remove Previous Containers') {
+            steps {
+                // Detener y eliminar contenedores existentes
+                sh '''
+                    docker-compose -f docker-compose-b.yml down || true
+                '''
+            }
+        }
         
         stage('Deploy') {
             steps {
